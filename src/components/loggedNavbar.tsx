@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const handleLogout = () => {
+  localStorage.clear();
+  window.location.href = "/login";
+};
+
 const loggedNavbar = () => {
   return (
     <nav className="bg-white shadow-lg p-2 flex justify-between items-center">
@@ -14,24 +19,30 @@ const loggedNavbar = () => {
 
       <div className="flex gap-4">
         <Link
-          to="/home"
-          className="text-[#1DBED3] hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
+          to="/"
+          className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
         >
           Home
         </Link>
         <Link
           to="/patients"
           className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
-
         >
           Patients
         </Link>
         <Link
           to="/Requests"
-          className="text-[#1DBED3] hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
+          className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
         >
           Requests
         </Link>
+
+        <button
+          onClick={handleLogout}
+          className="bg-[rgba(242,98,104,0.75)] text-white py-2 px-4 tablet:px-3 rounded hover:bg-[#F26268] flex items-center"
+        >
+          Logout <span className="ml-2">&rarr;</span>
+        </button>
       </div>
     </nav>
   );
