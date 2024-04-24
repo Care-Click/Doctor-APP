@@ -4,11 +4,10 @@ import Navbar from "./components/Navbar";
 import LoggedNavbar from "./components/loggedNavbar.tsx";
 import Login from "./components/auth/Login.tsx";
 import SignUp from "./components/auth/SignUp.tsx";
+import Home from "./components/Home.tsx"
+import Requests from "./components/patient/Requests.tsx";
 import MedicalExp from "./components/auth/MedicalExp.tsx";
 
-
-
-import Requests from "./components/patient/Requests.jsx";
 
 
 const App = () => {
