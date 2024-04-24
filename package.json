@@ -2,7 +2,6 @@
   "name": "client",
   "version": "1.0.0",
   "main": "index.js",
- 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
@@ -23,8 +22,14 @@
     "vite": "^5.2.10"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
+    "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-password-checklist": "^1.5.1",
+    "react-phone-number-input": "^3.4.0",
     "react-router-dom": "^6.22.3"
   },
   "description": ""
