@@ -2,7 +2,26 @@ import React from 'react'
 
 function Home() {
   return (
-    <div>Home</div>
+    <div className="flex justify-center items-center ">
+   
+    <div className="flex-1 flex items-center bg-white text-gray-800 px-4">
+      <div className="max-w-md mx-auto">
+        <h1 className="text-3xl lg:text-4xl font-bold mb-4">
+          Your Premier Destination for Compassionate Care
+        </h1>
+        <p className="mb-6">
+          With cutting-edge technology and a dedicated team, we're here to ensure you receive the best care, whenever you need it. Join us, and let's journey towards health and wellness together
+        </p>
+        <button className="bg-[#F26268] text-white px-2 tablet:px-3 py-1 rounded">
+          Learn More
+        </button>
+      </div>
+    </div>
+    
+    <div className="flex-1">
+      <img src="/Homepage.png" alt="Healthcare Professional and Patient" className="object-cover" />
+    </div>
+  </div>
   )
 }
 
