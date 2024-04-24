@@ -5,7 +5,7 @@ import LoggedNavbar from "./components/loggedNavbar.tsx";
 import Login from "./components/auth/Login.tsx";
 import SignUp from "./components/auth/SignUp.tsx";
 import Home from "./components/Home.tsx"
-import Requests from "./components/patient/Requests.jsx";
+import Requests from "./components/patient/Requests.tsx";
 
 const App = () => {
   let token=localStorage.getItem('token')
