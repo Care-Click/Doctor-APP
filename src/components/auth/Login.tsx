@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import "../../App.css";
 
-const Login = () => {
+const Login = ({setToken}) => {
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -14,20 +15,20 @@ const Login = () => {
 
   const handleLogin = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
+ 
     try {
       const info = { email, password };
       const { status, data } = await axios.post(
-        "http://localhost:3000/api/doctors/signin",
+        "http://localhost:3001/api/doctors/signin",
         info
       );
       //console.log (data)
       const { token, loggedUser } = data;
 
       localStorage.setItem("token", token); // Store the token
-
+      setToken(token) 
       console.log("Logged in user:", loggedUser);
-      navigate("/request");
+      navigate("/requests");
     } catch (error) {
       if (error.response) {
         setErrorMessage(
