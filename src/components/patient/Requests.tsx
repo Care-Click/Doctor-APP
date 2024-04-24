@@ -28,28 +28,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 function Requests() {
-  const [request, setRequest] = React.useState([]);
-
+  const [doctorId, setdoctorId] = React.useState(null);
   const [data, setdata] = React.useState([]);
   const getRequests = async () => {
+    const token=localStorage.getItem('token')
     try {
-      const {data } = await axios.get(
-        "http://localhost:3000/api/doctors/requests"
+      const {data} = await axios.get(
+        `http://localhost:3000/api/requests/requests/${token}`
       );
-      setdata(data);
+      setdata(data.pendingRequests);
+      setdoctorId(data.doctorId)
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
-  const AcepteRequest = async (id) => {
+  const AcepteRequest = async (reqId) => {
     const token=localStorage.getItem('token')
     
     try {
       const {data} = await axios.get(
-        `http://localhost:3000/api/requests/accepteRequest/${id}/${token}`
+        `http://localhost:3000/api/requests/accepteRequest/${reqId}/${token}`
       );
-      console.log(data);
+      getRequests()
     } catch (error) {
       console.log(error);
     }
@@ -97,33 +98,34 @@ function Requests() {
                 color: "#FFFFFF",
                 fontSize: "21px",
               }}
-              align=""
+            
             >
               status
             </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((req) => (
-            <StyledTableRow key={req.name}>
-              <StyledTableCell component="th" scope="req">
-                {req.name}
-              </StyledTableCell>
-              <StyledTableCell>{req.Patient.FullName}</StyledTableCell>
-              <StyledTableCell>{req.Patient.phone_number}</StyledTableCell>
-              <StyledTableCell>{req.message}</StyledTableCell>
-              <StyledTableCell>
-                {req.status === "Pending" ? (
-                  <button onClick={()=>{
-                    AcepteRequest(req.id)
-                  }}>accept</button>
-                ) : (
-                  <>Already Acepted</>
-                )}
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
+  {data.map((req) => (
+    <StyledTableRow key={req.name}>
+      <StyledTableCell component="th" scope="row">
+        {req.name}
+      </StyledTableCell>
+      <StyledTableCell>{req.Patient.FullName}</StyledTableCell>
+      <StyledTableCell>{req.Patient.phone_number}</StyledTableCell>
+      <StyledTableCell>{req.message}</StyledTableCell>
+      <StyledTableCell>
+        {req.status === "Pending" ? (
+          <button onClick={() => AcepteRequest(req.id)}>accept</button>
+        ) : req.doctorId === doctorId ? (
+          <button>repport</button>
+        ) : (
+          <>Already Accepted</>
+        )}
+      </StyledTableCell>
+    </StyledTableRow>
+  ))}
+</TableBody>
+
       </Table>
     </TableContainer>
   );
