@@ -2,7 +2,7 @@ import React from 'react'
 
 function Home() {
   return (
-    <div className="flex justify-center items-center ">
+    <div className="flex justify-center items-center">
    
     <div className="flex-1 flex items-center bg-white text-gray-800 px-4">
       <div className="max-w-md mx-auto">
@@ -19,7 +19,7 @@ function Home() {
     </div>
     
     <div className="flex-1">
-      <img src="/Homepage.png" alt="Healthcare Professional and Patient" className="object-cover" />
+      <img src="/Homepage.png" alt="Healthcare Professional and Patient" className="object-cover w-350" />
     </div>
   </div>
   )
