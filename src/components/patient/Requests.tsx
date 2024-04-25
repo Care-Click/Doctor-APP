@@ -32,17 +32,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function Requests() {
   const navigate = useNavigate();
   const [doctorId, setDoctorId] = React.useState(0);
-  const [data, setData] = React.useState([]);
+  const [reqs, setData] = React.useState([]);
 
   const getRequests = async () => {
     const token = localStorage.getItem("token");
     try {
       const { data } = await axios.get(
-        `http://localhost:3001/api/requests/requests/${token}`
+        `http://localhost:3000/api/requests/requests/${token}`
       );
       setData(data.reversed);
       setDoctorId(data.doctorId);
-      console.log(data);
+      console.log(reqs);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +53,7 @@ function Requests() {
 
     try {
       const { data } = await axios.get(
-        `http://localhost:3001/api/requests/accepteRequest/${reqId}/${token}`
+        `http://localhost:3000/api/requests/accepteRequest/${reqId}/${token}`
       );
       getRequests();
     } catch (error) {
@@ -77,7 +77,7 @@ function Requests() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((req) => (
+          {reqs.map((req) => (
             <StyledTableRow key={req.name}  className="  hover:bg-gray-300 ">
                {/* <img src={req.Patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} /> */}
               <StyledTableCell className="text-lg">{req.Patient.FullName}</StyledTableCell>
@@ -87,7 +87,8 @@ function Requests() {
                 {req.status === "Pending" ? (
                   <button onClick={() => acceptRequest(req.id)} className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300">Accept</button>
                 ) : req.doctorId === doctorId ? (
-                  <button className="text-[#F26268] text-lg hover:bg-[#1DBED3] hover:[#1DBED3] px-2 tablet:px-3 py-1 rounded transition-colors duration-300" onClick={() => { navigate("/report") }}>Report</button>
+                  <button className="text-[#F26268] text-lg hover:bg-[#1DBED3] hover:[#1DBED3] px-2 tablet:px-3 py-1 rounded transition-colors duration-300" onClick={() => { navigate("/report",{state:{patientId:req.id}}) }}>Report</button>
+
                 ) : (
                   <p className="text-[#1DBED3] text-lg">Already Accepted</p>
                 )}
