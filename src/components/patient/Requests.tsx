@@ -118,7 +118,7 @@ function Requests() {
                 {req.status === "Pending" ? (
                   <button onClick={() => AcepteRequest(req.id)} className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300">accept</button>
                 ) : req.doctorId === doctorId ? (
-                  <button className="text-[#F26268] text-lg hover:bg-[#1DBED3] hover:[#1DBED3] px-2 tablet:px-3 py-1 rounded transition-colors duration-300" onClick={()=>{ navigate("/report")}}>repport</button>
+                  <button className="text-[#F26268] text-lg hover:bg-[#1DBED3] hover:[#1DBED3] px-2 tablet:px-3 py-1 rounded transition-colors duration-300" onClick={()=>{ navigate("/report",{state:{patientId:req.id}})}}>repport</button>
                 ) : (
                   <p className="text-[#1DBED3] text-lg  ">Already Accepted</p>
                 )}
