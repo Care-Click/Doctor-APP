@@ -44,11 +44,9 @@ const Report = () => {
     const [description, setdesc] = useState('');
     const getPatient=async ()=>{
     try {
-      const { data } = await axios.get( `http://localhost:3000/api/doctors/patient/${patientId}`)
-        console.log(data);
+      const {data } = await axios.get( `http://localhost:3000/api/doctors/patient/${patientId}`)
         setLocation(JSON.parse(data.location))
-        console.log(location);
-        console.log(patient);
+        setPatient(data)
         settest(false)
     } catch (error) {
       console.log(error);
@@ -57,7 +55,7 @@ const Report = () => {
 
 useEffect(()=>{
     getPatient()
-},[])
+},[test])
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
     };
@@ -120,7 +118,7 @@ useEffect(()=>{
             <h3 className="text-xl font-semibold">Past Illnesses</h3>
             <ul>
               {patient.medicalInfo.PastIllness.map((item, index) => (
-                <li key={index}>{item}</li>
+                 <li key={index}>{item}</li>
               ))}
             </ul>
           </div>
