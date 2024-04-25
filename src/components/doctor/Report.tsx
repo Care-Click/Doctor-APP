@@ -44,10 +44,12 @@ const Report = () => {
     const [description, setdesc] = useState('');
     const getPatient=async ()=>{
     try {
-      const {data } = await axios.get( `http://localhost:3000/api/doctors/patient/${patientId}`)
-        setLocation(JSON.parse(data.location))
+      const {data } = await axios.get( `http://localhost:3001/api/doctors/patient/${patientId}`)
+        // setLocation(JSON.parse(data.location))
         setPatient(data)
         settest(false)
+        console.log(data);
+        
     } catch (error) {
       console.log(error);
     }
@@ -70,33 +72,31 @@ useEffect(()=>{
         console.log('Input value:', description);
     };
 
-    if (test){
-        return <div>loading</div>
-    }
-    else{
+  
+  
     return (
-        <div className="container mx-auto mt-8">
-             <div className="flex justify-center items-center mb-8 border border-grey-900 rounded-md p-4 bg-gray-300">
+      <div className="flex justify-center items-center py-7">
+      <div className="mb-8 rounded-md p-4 shadow-lg rounded-lg bg-[#c4e3ff] flex items-center bg-opacity-30">
                
-               <div className="w-1/2 mr-4 border-r border-gray-300 pr-4">
-                    <h2 className="text-lg font-bold mb-4">Medical Information</h2>
-                    <div className="flex items-center justify-between mb-8">
-    <div className="flex items-center">
-          <img src={patient.profile_picture} alt="Profile" className="w-20 h-20 rounded-full mr-4" />
+               <div className="w-1/2 mr-6 pr-4 ">
+                    
+                    <div className="flex items-center justify-between ">
+    <div className="flex items-center ">
+          <img src={patient.profile_picture} alt="Profile" className="w-25 h-25 rounded-md mr-6 " />
           <div>
             <h1 className="text-3xl font-bold">{patient?.FullName}</h1>
-            <p className="text-gray-600">{patient?.email}</p>
-            <p className="text-gray-600">{patient?.phone_number}</p>
+            <h3 className="text-xl font-bold">{patient?.Gender}</h3>
+            <p className="text-l font-bold">{patient?.phone_number}</p>
+            <p className="text-l font-bold">{patient?.email}</p>
+            
+          <p className="text-l font-bold">Date of Birth: {new Date(patient?.date_of_birth).toLocaleDateString()}</p>
+          <p className="text-l font-bold">Location: {location.city}, {location.district}, {location.country}</p>   
           </div>
         </div>
-        <div>
-          <h2 className="text-xl font-semibold">{patient?.Gender}</h2>
-          <p className="text-gray-600">Date of Birth: {new Date(patient?.date_of_birth).toLocaleDateString()}</p>
-          <p className="text-gray-600">Location: {location.city}, {location.district}, {location.country}</p>
-        </div>
+        
       </div>
       <div>
-        <h2 className="text-2xl font-semibold mb-4">Medical Information</h2>
+        <h2 className="text-2xl font-semibold mb-4">Medical Information : </h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <h3 className="text-xl font-semibold">Familial Medical History</h3>
@@ -148,7 +148,7 @@ useEffect(()=>{
           </div>
           <div>
             <h3 className="text-xl font-semibold">Imaging Test Results</h3>
-            <ul>
+            <ul >
               {patient.medicalInfo.Imaging_test_results.map((item, index) => (
                 <li key={index}>{item}</li>
               ))}
@@ -157,18 +157,22 @@ useEffect(()=>{
         </div>
       </div>
                 </div>  
+
+
                 {/* Dropdown and input form */}
-                <div className="w-1/2 ml-4">
-                    <h2 className="text-lg font-bold mb-4">Add Information</h2>
+                <div className="w-1/2 pr-5 h-full">
+                
+                    <h2 className="text-lg font-bold mb-4 "> Add Information : </h2>
+                   
                     <form onSubmit={handleSubmit}>
                         {/* Dropdown select */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="dropdown">
+                        <div >
+                            <label className="block text-sm font-medium text-gray-900 mb-3" htmlFor="dropdown">
                                 Select an Information:
                             </label>
                             <select
                                 id="dropdown"
-                                className="block w-full border border-gray-700 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 bg-white"
+                                className="block w-full appearance-none border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white px-4 py-2 pr-8"
                                 value={selectedOption}
                                 onChange={handleSelectChange}
                             >
@@ -184,16 +188,16 @@ useEffect(()=>{
                         </div>
                         {/* Input field */}
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="inputField">
+                            <label className="block text-sm font-medium text-gray-900 mb-2" htmlFor="inputField">
                                 Description:
                             </label>
-                            <input
+                            <textarea
                                 id="inputField"
                                 type="text"
-                                className="block w-full border border-gray-700 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 bg-white"
-                                value={description}
+                                className="w-full p-9  rounded-md shadow-sm focus:border-blue-500 border border-gray-300"
+                             placeholder="Your message here..."
                                 onChange={handleInputChange}
-                            />
+                          />
                         </div>
                         {/* Submit button */}
                         <div>
@@ -206,8 +210,8 @@ useEffect(()=>{
                     </form>
                 </div>
             </div>
-        </div>
-    );}
+            </div>
+    );
 };
 
 export default Report;
