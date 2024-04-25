@@ -1,6 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+   
+    color: theme.palette.common.white,
+    padding: theme.spacing(1, 2)
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hover styles
+  '&:hover': {
+    backgroundColor: theme.palette.action.selected,
+  }
+}));
+
 
 interface Patient {
   id: number;
@@ -10,15 +40,20 @@ interface Patient {
   phone_number: string;
 }
 
-const Patients = () => {
 
+
+const Patients = () => {
+ let token = localStorage.getItem("token")
+ console.log(token)
+
+  
   const navigate = useNavigate()
   const [patients, setPatients] = useState<Patient[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<Patient[]>('http://localhost:3000/api/doctors/12/patients');
+        const response = await axios.get<Patient[]>(`http://localhost:3001/api/doctors/${token}/patients`);
         setPatients(response.data);
       } catch (error) {
         console.log(error);
@@ -30,33 +65,31 @@ const Patients = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-4">
-      <table className="w-full border-collapse border border-gray-700">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="p-2">Profile Picture</th>
-            <th className="p-2">Full name</th>
-            <th className="p-2">Email</th>
-            <th className="p-2">Phone Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          {patients.map(patient => (
-            <tr key={patient.id} className="border border-gray-500 hover:bg-blue-300 cursor-pointer"
-              onClick={() => navigate('/report')}
-            >
-              <td className="p-2">
-                <img src={patient.profile_picture} alt="Profile" className="w-12 h-12 rounded-full" />
-              </td>
-              <td className="p-2">{patient.FullName}</td>
-              <td className="p-2">{patient.email}</td>
-              <td className="p-2">{patient.phone_number}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+    <TableContainer component={Paper} sx={{ maxWidth: 1200, margin: 'auto', mt: 4 }}>
+    <Table aria-label="customized table">
+      <TableHead style={{ backgroundColor: '#0053a0', color: "#FFFFFF" }}>
+        <TableRow>
+          <StyledTableCell>Profile Picture</StyledTableCell>
+          <StyledTableCell>Full Name</StyledTableCell>
+          <StyledTableCell>Email</StyledTableCell>
+          <StyledTableCell>Phone Number</StyledTableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {patients.map((patient) => (
+          <StyledTableRow key={patient.id} onClick={() => navigate('/patient-details/' + patient.id)}  className="border-blue-700 hover:bg-blue-300 cursor-pointer">
+            <StyledTableCell component="th" scope="row">
+              <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
+            </StyledTableCell>
+            <StyledTableCell>{patient.FullName}</StyledTableCell>
+            <StyledTableCell>{patient.email}</StyledTableCell>
+            <StyledTableCell>{patient.phone_number}</StyledTableCell>
+          </StyledTableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+);
+}
 
 export default Patients;
