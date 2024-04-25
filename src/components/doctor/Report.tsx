@@ -43,16 +43,25 @@ const Report = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [description, setdesc] = useState('');
     const getPatient=async ()=>{
-    try {
+     try {
       const {data } = await axios.get( `http://localhost:3000/api/doctors/patient/${patientId}`)
         setLocation(JSON.parse(data.location))
         setPatient(data)
         settest(false)
-    } catch (error) {
+      } catch (error) {
       console.log(error);
+      }
     }
-    }
-
+    const sendReport=async ()=>{
+      try {
+         const response = await axios.post( `http://localhost:3000/api/requests/createRepport/${requestId}`)
+         
+        
+        
+       } catch (error) {
+       console.log(error);
+       }
+     }
 useEffect(()=>{
     getPatient()
 },[test])
