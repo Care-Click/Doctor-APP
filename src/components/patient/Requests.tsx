@@ -24,9 +24,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
+  // "&:nth-of-type(odd)": {
+  //   backgroundColor: theme.palette.action.hover,
+  // },
 }));
 
 function Requests() {
@@ -68,17 +68,18 @@ function Requests() {
   return (
     <TableContainer component={Paper}  sx={{ mx: 'auto',  my: 5, boxShadow: 2, maxWidth: 1200, }}>
       <Table aria-label="customized table">
-        <TableHead style={{ backgroundColor: "#1dd39d", color: "#FFFFFF" }}>
+        <TableHead style={{ backgroundColor: "#00a09d", color: "#FFFFFF" }}>
           <TableRow  >
-            <StyledTableCell style={{fontSize: "21px"}}>Name</StyledTableCell>
-            <StyledTableCell style={{fontSize: "21px"}}>Phone Number</StyledTableCell>
-            <StyledTableCell style={{fontSize: "21px"}}>Description</StyledTableCell>
-            <StyledTableCell style={{fontSize: "21px"}}>Status</StyledTableCell>
+            <StyledTableCell style={{fontSize: "17px"}}>Name</StyledTableCell>
+            <StyledTableCell style={{fontSize: "17px"}}>Phone Number</StyledTableCell>
+            <StyledTableCell style={{fontSize: "17px"}} align ='center'>Description</StyledTableCell>
+            <StyledTableCell style={{fontSize: "17px"}}>Status</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((req) => (
-            <StyledTableRow key={req.name}>
+            <StyledTableRow key={req.name}  className="  hover:bg-gray-300 ">
+               {/* <img src={req.Patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} /> */}
               <StyledTableCell className="text-lg">{req.Patient.FullName}</StyledTableCell>
               <StyledTableCell className="text-lg">{req.Patient.phone_number}</StyledTableCell>
               <StyledTableCell className="text-lg">{req.message}</StyledTableCell>
