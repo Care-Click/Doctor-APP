@@ -48,12 +48,12 @@ const Login = ({setToken}) => {
         <div
           className="h-screen opacity-90 shadow text-white "
           style={{
-            backgroundImage: `url(/Capture.PNG)`,
+            backgroundImage: `url(/Capture1.PNG)`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
           }}
         >
-          <div className="bg-[#1DBED3] h-full bg-opacity-50 p-12">
+          <div className="bg-[#1DBED3] h-full bg-opacity-30 p-12">
             <h1 className="text-6xl font-bold mb-4">HOPE FOR HUMANITY</h1>
             <p className="text-2xl">Welcome to hope for humanity</p>
           </div>
