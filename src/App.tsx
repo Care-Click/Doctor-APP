@@ -7,7 +7,7 @@ import SignUp from "./components/auth/SignUp.tsx";
 import Home from "./components/Home.tsx"
 import Requests from "./components/patient/Requests.tsx";
 import MedicalExp from "./components/auth/MedicalExp.tsx";
-import Patients from "./components/patient/Patients.jsx";
+import Patients from "./components/patient/Patients.tsx";
 import Report from "../src/components/doctor/Report.tsx"
 
 
@@ -27,6 +27,7 @@ const App = () => {
         <Route path="/requests" element={<Requests />} />
         <Route path="/medicalExp" element={<MedicalExp />} />
         <Route path="/report" element={< Report/>} />
+
 
       
       </Routes>
