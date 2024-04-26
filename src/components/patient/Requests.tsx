@@ -38,7 +38,7 @@ function Requests() {
     const token = localStorage.getItem("token");
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/requests/requests/${token}`
+        `http://localhost:3001/api/requests/requests/${token}`
       );
       setData(data.reversed);
       setDoctorId(data.doctorId);
@@ -53,7 +53,7 @@ function Requests() {
 
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/requests/accepteRequest/${reqId}/${token}`
+        `http://localhost:3001/api/requests/accepteRequest/${reqId}/${token}`
       );
 
       setTest(!test);
