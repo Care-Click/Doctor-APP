@@ -56,9 +56,9 @@ const Report = () => {
   const getPatient = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/doctors/patient/${patientId}`
+        `http://localhost:3001/api/doctors/patient/${patientId}`
       );
-      setLocation(JSON.parse(data.location).place);
+      //setLocation(JSON.parse(data.location).place);
       setPatient(data);
       settest(false);
     } catch (error) {
@@ -94,7 +94,7 @@ const Report = () => {
 
     try {
       const {status} = await axios.post(
-        `http://localhost:3000/api/requests/raport/${patientId}`,newreport
+        `http://localhost:3001/api/requests/raport/${patientId}`,newreport
       );
     settest(!test)
 
@@ -104,11 +104,11 @@ const Report = () => {
   };
 
   return (
-    <div className="flex justify-center items-center py-7">
-      <div className="mb-8 rounded-md p-4 shadow-lg rounded-lg bg-[#c4e3ff] flex items-center bg-opacity-30">
+    <div className="flex flex-col justify-center items-center min-h-screen ">
+      <div className="mb-8  container mx-auto rounded-md p-4 shadow-lg rounded-lg bg-[#7FD8BE] flex items-center bg-opacity-30">
         <div className="w-1/2 mr-6 pr-4 ">
           <div className="flex items-center justify-between ">
-            <div className="flex items-center ">
+            <div className="flex items-center pb-9">
               <img
                 src={patient.profile_picture}
                 alt="Profile"
@@ -116,23 +116,22 @@ const Report = () => {
               />
               <div>
                 <h1 className="text-3xl font-bold">{patient?.FullName}</h1>
-                <h3 className="text-xl font-bold">{patient?.Gender}</h3>
-                <p className="text-l font-bold">{patient?.phone_number}</p>
-                <p className="text-l font-bold">{patient?.email}</p>
+                <h3 className="text-l font-bold"> ⚥ {patient?.Gender}</h3>
+                <p className="text-l font-bold"> 📞 {patient?.phone_number}</p>
+                <p className="text-l font-bold"> 🌐 {patient?.email}</p>
 
                 <p className="text-l font-bold">
-                  Date of Birth:{" "}
-                  {new Date(patient?.date_of_birth).toLocaleDateString()}
+                📅 {new Date(patient?.date_of_birth).toLocaleDateString()}
                 </p>
                 <p className="text-l font-bold">
-                  Location: {location.city}, {location.district},{" "}
+                📍  {location.city}, {location.district},{" "}
                   {location.country}
                 </p>
               </div>
             </div>
           </div>
           <div>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-2xl font-semibold mb-4 ">
               Medical Information :{" "}
             </h2>
             {patient.medicalInfo && (
