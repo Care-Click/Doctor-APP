@@ -75,28 +75,27 @@ useEffect(()=>{
   
   
     return (
-      <div className="flex justify-center items-center py-7">
-      <div className="mb-8 rounded-md p-4 shadow-lg rounded-lg bg-[#c4e3ff] flex items-center bg-opacity-30">
+      <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+      <div className="mb-8 container rounded-md p-4 shadow-lg rounded-lg bg-[#abd7ff] flex items-center bg-opacity-30">
                
-               <div className="w-1/2 mr-6 pr-4 ">
+               <div className="w-1/2 mr-6 pr-4  ">
                     
-                    <div className="flex items-center justify-between ">
+                    <div className="flex items-center justify-between pb-9">
     <div className="flex items-center ">
           <img src={patient.profile_picture} alt="Profile" className="w-25 h-25 rounded-md mr-6 " />
           <div>
             <h1 className="text-3xl font-bold">{patient?.FullName}</h1>
-            <h3 className="text-xl font-bold">{patient?.Gender}</h3>
-            <p className="text-l font-bold">{patient?.phone_number}</p>
-            <p className="text-l font-bold">{patient?.email}</p>
-            
-          <p className="text-l font-bold">Date of Birth: {new Date(patient?.date_of_birth).toLocaleDateString()}</p>
-          <p className="text-l font-bold">Location: {location.city}, {location.district}, {location.country}</p>   
+            <h3 className="text-l "> ⚥ {patient?.Gender}</h3>
+            <p className="text-l font-bold"> 📞 {patient?.phone_number}</p>
+            <p className="text-l font-bold"> 🌐 {patient?.email}</p>
+          <p className="text-l font-bold"> 📅 {new Date(patient?.date_of_birth).toLocaleDateString()}</p>
+          <p className="text-l font-bold"> 🏠 {location.city}, {location.district}, {location.country}</p>   
           </div>
         </div>
         
       </div>
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Medical Information : </h2>
+      <div className=''>
+        <h2 className="text-lg font-bold mb-4 text-gray ">Medical Information : </h2>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <h3 className="text-xl font-semibold">Familial Medical History</h3>
@@ -160,7 +159,7 @@ useEffect(()=>{
 
 
                 {/* Dropdown and input form */}
-                <div className="w-1/2 pr-5 h-full">
+                <div className="w-1/2 pr-5 ">
                 
                     <h2 className="text-lg font-bold mb-4 "> Add Information : </h2>
                    
@@ -193,7 +192,6 @@ useEffect(()=>{
                             </label>
                             <textarea
                                 id="inputField"
-                                type="text"
                                 className="w-full p-9  rounded-md shadow-sm focus:border-blue-500 border border-gray-300"
                              placeholder="Your message here..."
                                 onChange={handleInputChange}
@@ -210,7 +208,7 @@ useEffect(()=>{
                     </form>
                 </div>
             </div>
-            </div>
+            </div> 
     );
 };
 
