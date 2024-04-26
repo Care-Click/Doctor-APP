@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -13,12 +13,12 @@ import { useNavigate } from "react-router-dom";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.white,
-    textAlign: 'right', // Centers the text in the header cells
+    textAlign: "right", // Centers the text in the header cells
     padding: theme.spacing(1, 2), // Adjusts the padding; feel free to change the values
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    textAlign: 'right', // Centers the text in the body cells
+    textAlign: "right", // Centers the text in the body cells
     padding: theme.spacing(1, 2), // Adjusts the padding
   },
 }));
@@ -31,9 +31,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Requests() {
   const navigate = useNavigate();
-  const [doctorId, setDoctorId] = React.useState(0);
-  const [reqs, setData] = React.useState([]);
-
+  const [doctorId, setDoctorId] = useState(0);
+  const [reqs, setData] = useState([]);
+  const [test, setTest] = useState(false);
   const getRequests = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -55,7 +55,8 @@ function Requests() {
       const { data } = await axios.get(
         `http://localhost:3001/api/requests/accepteRequest/${reqId}/${token}`
       );
-      getRequests();
+
+      setTest(!test);
     } catch (error) {
       console.log(error);
     }
@@ -63,32 +64,63 @@ function Requests() {
 
   React.useEffect(() => {
     getRequests();
-  }, []);
+  }, [test]);
 
   return (
-    <TableContainer component={Paper}  sx={{ mx: 'auto',  my: 5, boxShadow: 2, maxWidth: 1200, }}>
+    <TableContainer
+      component={Paper}
+      sx={{ mx: "auto", my: 5, boxShadow: 2, maxWidth: 1200 }}
+    >
       <Table aria-label="customized table">
         <TableHead style={{ backgroundColor: "#00a09d", color: "#FFFFFF" }}>
-          <TableRow  >
-            <StyledTableCell style={{fontSize: "17px"}}>Name</StyledTableCell>
-            <StyledTableCell style={{fontSize: "17px"}}>Phone Number</StyledTableCell>
-            <StyledTableCell style={{fontSize: "17px"}} align ='center'>Description</StyledTableCell>
-            <StyledTableCell style={{fontSize: "17px"}}>Status</StyledTableCell>
+          <TableRow>
+            <StyledTableCell style={{ fontSize: "17px" }}>profile picture</StyledTableCell>
+            <StyledTableCell style={{ fontSize: "17px" }}>Name</StyledTableCell>
+            <StyledTableCell style={{ fontSize: "17px" }}>
+              Phone Number
+            </StyledTableCell>
+            <StyledTableCell style={{ fontSize: "17px" }} align="center">
+              Description
+            </StyledTableCell>
+            <StyledTableCell style={{ fontSize: "17px" }}>
+              Status
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {reqs.map((req) => (
-            <StyledTableRow key={req.name}  className="  hover:bg-gray-300 ">
-               {/* <img src={req.Patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} /> */}
-              <StyledTableCell className="text-lg">{req.Patient.FullName}</StyledTableCell>
-              <StyledTableCell className="text-lg">{req.Patient.phone_number}</StyledTableCell>
-              <StyledTableCell className="text-lg">{req.message}</StyledTableCell>
+            <StyledTableRow key={req.name} className="  hover:bg-gray-300 ">
+              <img
+                src={req.Patient.profile_picture}
+                alt="Profile"
+                style={{ width: 50, height: 50, borderRadius: "50%" }}
+              />
+              <StyledTableCell className="text-lg">
+                {req.Patient.FullName}
+              </StyledTableCell>
+              <StyledTableCell className="text-lg">
+                {req.Patient.phone_number}
+              </StyledTableCell>
+              <StyledTableCell className="text-lg">
+                {req.message}
+              </StyledTableCell>
               <StyledTableCell className="text-lg">
                 {req.status === "Pending" ? (
-                  <button onClick={() => acceptRequest(req.id)} className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300">Accept</button>
+                  <button
+                    onClick={() => acceptRequest(req.id)}
+                    className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
+                  >
+                    Accept
+                  </button>
                 ) : req.doctorId === doctorId ? (
-                  <button className="text-[#F26268] text-lg hover:bg-[#1DBED3] hover:[#1DBED3] px-2 tablet:px-3 py-1 rounded transition-colors duration-300" onClick={() => { navigate("/report",{state:{patientId:req.id}}) }}>Report</button>
-
+                  <button
+                    className="text-[#F26268] text-lg hover:bg-[#1DBED3] hover:[#1DBED3] px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
+                    onClick={() => {
+                      navigate("/report", { state: { patientId: req.id } });
+                    }}
+                  >
+                    Report
+                  </button>
                 ) : (
                   <p className="text-[#1DBED3] text-lg">Already Accepted</p>
                 )}

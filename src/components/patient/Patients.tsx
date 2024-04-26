@@ -53,8 +53,10 @@ const Patients = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<Patient[]>(`http://localhost:3001/api/doctors/${token}/patients`);
+        const response = await axios.get<Patient[]>(`http://localhost:3000/api/doctors/${token}/patients`);
         setPatients(response.data);
+        console.log(patients);
+        
       } catch (error) {
         console.log(error);
       }
@@ -77,7 +79,7 @@ const Patients = () => {
       </TableHead>
       <TableBody>
         {patients.map((patient) => (
-          <StyledTableRow key={patient.id} onClick={() => navigate('/patient-details/' + patient.id)}  className="border-blue-700 hover:bg-blue-300 cursor-pointer">
+          <StyledTableRow key={patient.id} onClick={() => navigate('/report',{state:{patientId:patient.id}})}  className="border-blue-700 hover:bg-blue-300 cursor-pointer">
             <StyledTableCell component="th" scope="row">
               <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
             </StyledTableCell>
