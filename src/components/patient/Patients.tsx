@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../assets/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -43,17 +43,17 @@ interface Patient {
 
 
 const Patients = () => {
- let token = localStorage.getItem("token")
- console.log(token)
+
 
   
   const navigate = useNavigate()
   const [patients, setPatients] = useState<Patient[]>([]);
+  const [test, setTest] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<Patient[]>(`http://localhost:3000/api/doctors/${token}/patients`);
+        const response = await axios.get<Patient[]>(`http://localhost:3000/api/doctors/patients`);
         setPatients(response.data);
         console.log(patients);
         
@@ -63,7 +63,7 @@ const Patients = () => {
     };
     fetchData();
     console.log(patients);
-
+    setTest(!test)
   }, []);
 
   return (
