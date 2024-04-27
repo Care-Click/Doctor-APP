@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../assets/axiosConfig";
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -38,7 +38,7 @@ function Requests() {
     const token = localStorage.getItem("token");
     try {
       const { data } = await axios.get(
-        `http://localhost:3001/api/requests/requests/${token}`
+        `http://localhost:3000/api/requests/requests`
       );
       setData(data.reversed);
       setDoctorId(data.doctorId);
@@ -49,13 +49,11 @@ function Requests() {
   };
 
   const acceptRequest = async (reqId) => {
-    const token = localStorage.getItem("token");
 
     try {
       const { data } = await axios.get(
-        `http://localhost:3001/api/requests/accepteRequest/${reqId}/${token}`
+        `http://localhost:3000/api/requests/accepteRequest/${reqId} `
       );
-
       setTest(!test);
     } catch (error) {
       console.log(error);
@@ -115,8 +113,9 @@ function Requests() {
                 ) : req.doctorId === doctorId ? (
                   <button
                     className="text-[#F26268] text-lg hover:bg-[#1DBED3] hover:[#1DBED3] px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
-                    onClick={() => {
-                      navigate("/report", { state: { patientId: req.id } });
+                    onClick={() => {console.log(req);
+                    
+                      navigate("/report", { state: { patientId: req.patientId } });
                     }}
                   >
                     Report

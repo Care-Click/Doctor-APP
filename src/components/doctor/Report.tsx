@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../assets/axiosConfig";
 import React, { useEffect, useState } from "react";
 import { Country } from "react-phone-number-input/core";
 import { useLocation } from "react-router-dom";
@@ -25,6 +25,8 @@ interface Medinfo {
 const Report = () => {
   const loca = useLocation();
   const { patientId } = loca.state;
+  console.log(patientId);
+  
   const [patient, setPatient] = useState({
     id: null,
     profile_picture: "",
@@ -56,9 +58,8 @@ const Report = () => {
   const getPatient = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3001/api/doctors/patient/${patientId}`
+        `http://localhost:3000/api/doctors/patient/${patientId}`
       );
-      //setLocation(JSON.parse(data.location).place);
       setPatient(data);
       settest(false);
     } catch (error) {
@@ -93,11 +94,11 @@ const Report = () => {
     console.log(newreport);
 
     try {
-      const {status} = await axios.post(
-        `http://localhost:3001/api/requests/raport/${patientId}`,newreport
+      const { status } = await axios.post(
+        `http://localhost:3000/api/requests/raport/${patientId}`,
+        newreport
       );
-    settest(!test)
-
+      settest(!test);
     } catch (error) {
       console.log(error);
     }
@@ -121,11 +122,10 @@ const Report = () => {
                 <p className="text-l font-bold"> 🌐 {patient?.email}</p>
 
                 <p className="text-l font-bold">
-                📅 {new Date(patient?.date_of_birth).toLocaleDateString()}
+                  📅 {new Date(patient?.date_of_birth).toLocaleDateString()}
                 </p>
                 <p className="text-l font-bold">
-                📍  {location.city}, {location.district},{" "}
-                  {location.country}
+                  📍 {location.city}, {location.district}, {location.country}
                 </p>
               </div>
             </div>
