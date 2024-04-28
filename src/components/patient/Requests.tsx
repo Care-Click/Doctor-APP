@@ -1,5 +1,5 @@
-import axios from "../../assets/axiosConfig";
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -38,11 +38,11 @@ function Requests() {
     const token = localStorage.getItem("token");
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/requests/requests`
+        `http://localhost:3000/api/requests/requests`,{headers:{"token":token}}
       );
       setData(data.reversed);
       setDoctorId(data.doctorId);
-      console.log(reqs);
+
     } catch (error) {
       console.log(error);
     }
