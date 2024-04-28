@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <nav className="  bg-white shadow-lg p-2 flex justify-between items-center fixed w-full z-10">
       <div className="flex items-center px-2">
-        <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
+        <img src="src\assets\images\logo.png" alt="Logo" className="h-12 w-auto" />
 
         <span className="font-bold text-[#F26268] text-lg tablet:text-xl laptop:text-2xl ml-2">
           CareClick
@@ -13,7 +13,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex gap-4">
-      <Link
+        <Link
           to="/"
           className="text-[#1DBED3] hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
         >
