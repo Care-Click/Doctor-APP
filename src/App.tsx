@@ -10,8 +10,14 @@ import MedicalExp from "./components/auth/MedicalExp.tsx";
 import Patients from "./components/patient/Patients.tsx";
 import Report from "../src/components/doctor/Report.tsx"
 
+import Messages from "./components/doctor/Message.tsx";
+
+
+
+
 
 const App = () => {
+
   let [token,setToken]=useState(localStorage.getItem('token'))
   useEffect(()=>{},[token])
  
@@ -27,10 +33,12 @@ const App = () => {
         <Route path="/requests" element={<Requests />} />
         <Route path="/medicalExp" element={<MedicalExp />} />
         <Route path="/report" element={< Report/>} />
-
+        
+        <Route path="/messages" element={< Messages/>} />
 
       
       </Routes>
+     
     </div>
   )
 }
