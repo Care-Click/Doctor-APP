@@ -107,7 +107,7 @@ const SignUp = () => {
       console.log(error);
     }
   };
-console.log("💰💰",location);
+//console.log("💰💰",location);
 
   return (
     <div className="grid grid-cols-2  h-screen bg-[#f6fff8] ">
