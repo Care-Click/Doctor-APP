@@ -1,12 +1,14 @@
-import axios from 'axios';
+import axios from "axios";
 
 const token = localStorage.getItem("token");
 
 const instance = axios.create();
 
-instance.interceptors.request.use(config => {
+instance.interceptors.request.use((config) => {
   if (token) {
+
     config.headers.token = token
+
   }
   return config;
 });

@@ -1,7 +1,8 @@
-import axios from "axios";
+import axios from "../../assets/axiosConfig";
 import React, { useEffect, useState } from "react";
-import { Country } from "react-phone-number-input/core";
+import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
+
 interface Patient {
   id: number | null;
   profile_picture: string;
@@ -10,10 +11,11 @@ interface Patient {
   phone_number: string;
   Gender: string;
   date_of_birth: string;
-  medicalInfo: Medinfo | {};
+  medicalInfo: Medinfo;
 }
+
 interface Medinfo {
-  id: number;
+  id: null | number;
   Imaging_test_results: string[];
   Chronic_Illness: string[];
   Medications: string[];
@@ -22,10 +24,14 @@ interface Medinfo {
   Allergies: string[];
   Familial_Medical_History: string[];
 }
+
 const Report = () => {
   const loca = useLocation();
   const { patientId } = loca.state;
-  const [patient, setPatient] = useState({
+
+  const { register, handleSubmit, setValue } = useForm(); // Initialize useForm
+
+  const [patient, setPatient] = useState<Patient>({
     id: null,
     profile_picture: "",
     FullName: "",
@@ -45,21 +51,17 @@ const Report = () => {
     Gender: "",
   });
 
-  const [location, setLocation] = useState({
-    city: "",
-    district: "",
-    country: "",
-  });
+  const [location, setLocation] = useState({});
+
   const [test, settest] = useState(true);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [description, setdesc] = useState("");
+
   const getPatient = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3001/api/doctors/patient/${patientId}`
+        `http://localhost:3000/api/doctors/patient/${patientId}`
       );
-      //setLocation(JSON.parse(data.location).place);
       setPatient(data);
+      setLocation(JSON.parse(data.location))
       settest(false);
     } catch (error) {
       console.log(error);
@@ -69,17 +71,8 @@ const Report = () => {
   useEffect(() => {
     getPatient();
   }, [test]);
-  const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
 
-  const handleInputChange = (e) => {
-    setdesc(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log({ selectedOption, description });
+  const onSubmit = async (data) => {
     let newreport = {
       Familial_Medical_History: [],
       Allergies: [],
@@ -89,15 +82,14 @@ const Report = () => {
       Chronic_Illness: [],
       Medications: [],
     };
-    newreport[selectedOption] = [description];
-    console.log(newreport);
+    newreport[data.selectedOption] = [data.description]; // Access selectedOption and description from form data
 
     try {
-      const {status} = await axios.post(
-        `http://localhost:3001/api/requests/raport/${patientId}`,newreport
+      const { status } = await axios.post(
+        `http://localhost:3000/api/requests/raport/${patientId}`,
+        newreport
       );
-    settest(!test)
-
+      settest(!test);
     } catch (error) {
       console.log(error);
     }
@@ -112,7 +104,7 @@ const Report = () => {
               <img
                 src={patient.profile_picture}
                 alt="Profile"
-                className="w-25 h-25 rounded-md mr-6 "
+                className="w-30 h-40 rounded-md mr-6 "
               />
               <div>
                 <h1 className="text-3xl font-bold">{patient?.FullName}</h1>
@@ -121,12 +113,12 @@ const Report = () => {
                 <p className="text-l font-bold"> 🌐 {patient?.email}</p>
 
                 <p className="text-l font-bold">
-                📅 {new Date(patient?.date_of_birth).toLocaleDateString()}
+                  📅 {new Date(patient?.date_of_birth).toLocaleDateString()}
                 </p>
                 <p className="text-l font-bold">
-                📍  {location.city}, {location.district},{" "}
-                  {location.country}
+                  📍 {location.city}, {location.district}, {location.country}
                 </p>
+
               </div>
             </div>
           </div>
@@ -206,10 +198,10 @@ const Report = () => {
         </div>
 
         {/* Dropdown and input form */}
-        <div className="w-1/2 pr-5 h-full">
+        <div className="w-1/2 pr-5 h-full mt-20">
           <h2 className="text-lg font-bold mb-4 "> Add Information : </h2>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/* Dropdown select */}
             <div>
               <label
@@ -221,8 +213,7 @@ const Report = () => {
               <select
                 id="dropdown"
                 className="block w-full appearance-none border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white px-4 py-2 pr-8"
-                value={selectedOption}
-                onChange={handleSelectChange}
+                {...register("selectedOption")} // Register selectedOption with useForm
               >
                 <option value="">Select an Info...</option>
                 <option value="Familial_Medical_History">
@@ -250,12 +241,12 @@ const Report = () => {
                 id="inputField"
                 className="w-full p-9  rounded-md shadow-sm focus:border-blue-500 border border-gray-300"
                 placeholder="Your message here..."
-                onChange={handleInputChange}
+                {...register("description")} // Register description with useForm
               />
             </div>
             {/* Submit button */}
             <div>
-              <button className="bg-[rgba(242,98,104,0.75)] text-white py-2 px-4 tablet:px-3 rounded hover:bg-[#F26268] flex items-center w-15 ml-50 ">
+              <button type="submit" className="bg-[rgba(242,98,104,0.75)] text-white py-2 px-4 tablet:px-3 rounded hover:bg-[#F26268] flex items-center w-15 ml-50 ">
                 Save
               </button>
             </div>
