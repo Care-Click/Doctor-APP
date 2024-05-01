@@ -18,7 +18,7 @@ const LoggedNavbar = () => {
 
       <div className="flex-grow flex justify-center items-center">
         <Link
-          to="/"
+          to="/home"
           className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300 mx-2"
         >
           Home
