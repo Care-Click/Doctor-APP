@@ -47,24 +47,27 @@ const Login = ({setToken}) => {
 
   return (
 
-    <div className="grid grid-cols-[1fr_2fr] ">
+    <div className="grid grid-cols-[1fr_2fr] min-h-screen">
       <div
-        className="opacity-90 shadow text-white flex items-center justify-center"
-        style={{
-          backgroundImage: `url('/src/assets/images/OIP.png')`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          minHeight: '100vh'
-        }}
-      >
-        <div className="text-center  mb-20">
-          <h1 className="text-6xl font-bold text-[#1DBED3]">HOPE FOR HUMANITY</h1>
-          <p className="text-2xl mt-4 text-[#1DBED3]">Welcome</p>
-        </div>
-      </div>
-      <div className="flex justify-center items-center bg-blue-100">
+  className="flex items-center justify-center bg-cover bg-no-repeat text-white"
+  style={{
+    backgroundImage: `url('/src/assets/images/Capture1.png')`,
+    backgroundPosition: 'center center',
+    minHeight: '100vh',
+    maxWidth: '500px',
+    width: '100%', 
+    
+  }}
+>
+  <div className="flex flex-col justify-center items-center h-full w-full bg-[#ade8f4] bg-opacity-40 p-4">
+    <h1 className="text-6xl font-bold">HOPE FOR HUMANITY</h1>
+    <h1 className="text-4xl mt-4">Welcome  to CareClick</h1>
+  </div>
+</div>
+      
+      <div className="flex justify-center items-center bg-[#f6fff8]">
         <form
-          className="w-[500px] mx-auto p-[50px] rounded-md shadow-lg bg-blue-200"
+          className="w-[450px] mx-auto p-[30px] rounded-md shadow-2xl items-center   "
           onSubmit={handleSubmit(signin)}
         >
           <h1 className="text-center text-3xl text-[#1DBED3] font-semibold mb-10">
@@ -102,7 +105,7 @@ const Login = ({setToken}) => {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-40 rounded focus:outline-none focus:shadow-outline"
+            className="block w-full px-3 py-2 bg-[#1DBED3] hover:bg-blue-700 text-white font-semibold rounded focus:outline-none focus:shadow-outline "
           >
             SIGN IN
           </button>
