@@ -9,6 +9,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
+interface Request {
+  id: number;
+  Patient: {
+    profile_picture: string;
+    FullName: string;
+    phone_number: string;
+  };
+  message: string;
+  status: 'Pending' | 'Completed';
+  doctorId: number;
+  patientId: number;
+}
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,17 +61,17 @@ function Requests() {
   };
 
   const acceptRequest = async (reqId) => {
+    const token = localStorage.getItem("token");
 
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/requests/accepteRequest/${reqId} `
+        `http://localhost:3000/api/requests/accepteRequest/${reqId} `,{headers:{"token":token}}
       );
       setTest(!test);
     } catch (error) {
       console.log(error);
     }
   };
-
   React.useEffect(() => {
     getRequests();
   }, [test]);
@@ -86,13 +98,14 @@ function Requests() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {reqs.map((req) => (
-            <StyledTableRow key={req.name} className="  hover:bg-gray-300 ">
+          {reqs.map((req:Request) => (
+            <StyledTableRow key={req.id} className="  hover:bg-gray-300 ">
+             <td>
               <img
                 src={req.Patient.profile_picture}
                 alt="Profile"
                 style={{ width: 50, height: 50, borderRadius: "50%" }}
-              />
+              /></td>
               <StyledTableCell className="text-lg">
                 {req.Patient.FullName}
               </StyledTableCell>
