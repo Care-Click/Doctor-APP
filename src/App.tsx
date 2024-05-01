@@ -11,10 +11,14 @@ import Report from "../src/components/doctor/Report.tsx"
 import Calendar from "../src/components/doctor/Calander.tsx";
 import LandingPage from "./components/LandingPage.tsx";
 import Home from "./components/doctor/Home.tsx";
+import Messages from "./components/doctor/Message.tsx";
+
+
 
 
 
 const App = () => {
+
   let [token,setToken]=useState(localStorage.getItem('token'))
   useEffect(()=>{},[token])
  
@@ -31,10 +35,9 @@ const App = () => {
         <Route path="/report" element={< Report/>} />
         <Route path="/calender" element={< Calendar/>} />
         <Route path="/home" element={< Home/>} />
-
-
-      
+        <Route path="/messages" element={< Messages/>} />
       </Routes>
+     
     </div>
   )
 }

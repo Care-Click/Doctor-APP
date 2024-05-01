@@ -35,6 +35,13 @@ const LoggedNavbar = () => {
         >
           Requests
         </Link>
+
+        <Link
+          to="/messages"
+          className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300 mx-2"
+        >
+          Messages
+        </Link>
       </div>
 
       <button
