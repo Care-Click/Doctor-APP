@@ -7,7 +7,7 @@ import {
   TileLayer,
   useMapEvents,
 } from "react-leaflet";
-import { Country } from "react-phone-number-input/input-core";
+
 let loca = {};
 
 const Location = ({setLocation}) => {
@@ -18,7 +18,6 @@ const Location = ({setLocation}) => {
         const response = await axios.get(
           `https://nominatim.openstreetmap.org/reverse?lat=${parseFloat(loca.lat)}&lon=${parseFloat(loca.lng)}&format=json&accept-language= fr`
         );
-        console.log(response);
 
         return response.data.address;
       } catch (error) {
@@ -29,7 +28,6 @@ const Location = ({setLocation}) => {
       click: async (e) => {
         loca = e.latlng;
         let result = await handleConvert(loca);
-        console.log(result);
 
         if (result) {
           setLocation({
