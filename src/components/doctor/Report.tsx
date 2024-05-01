@@ -1,6 +1,7 @@
 import axios from "../../assets/axiosConfig";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Country } from "react-phone-number-input/core";
 import { useLocation } from "react-router-dom";
 
 interface Patient {
@@ -51,7 +52,7 @@ const Report = () => {
     Gender: "",
   });
 
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState({city:"",district:"",country:""});
 
   const [test, settest] = useState(true);
 
@@ -97,7 +98,7 @@ const Report = () => {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen ">
-      <div className="mb-8  container mx-auto rounded-md p-4 shadow-lg rounded-lg bg-[#7FD8BE] flex items-center bg-opacity-30">
+      <div className="mb-8  container mx-auto p-4 shadow-lg rounded-lg bg-[#7FD8BE] flex items-center bg-opacity-30">
         <div className="w-1/2 mr-6 pr-4 ">
           <div className="flex items-center justify-between ">
             <div className="flex items-center pb-9">

@@ -7,9 +7,11 @@ import {
   TileLayer,
   useMapEvents,
 } from "react-leaflet";
+import { Country } from "react-phone-number-input/input-core";
 let loca = {};
+
 const Location = ({setLocation}) => {
-  const [clickedPosition, setClickedPosition] = useState(null);
+  const [clickedPosition, setClickedPosition] = useState({longitude:0,latitude:0,place:{city:"",country:""}});
   const LocationMarker = ({ setClickedPosition }) => {
     const handleConvert = async (loca) => {
       try {
