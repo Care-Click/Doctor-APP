@@ -12,6 +12,7 @@ import Calendar from "../src/components/doctor/Calander.tsx";
 import LandingPage from "./components/LandingPage.tsx";
 import Home from "./components/doctor/Home.tsx";
 import Messages from "./components/doctor/Message.tsx";
+import Profile from "./components/doctor/Profile.tsx";
 
 
 
@@ -36,6 +37,8 @@ const App = () => {
         <Route path="/calender" element={< Calendar/>} />
         <Route path="/home" element={< Home/>} />
         <Route path="/messages" element={< Messages/>} />
+        <Route path="/profile" element={< Profile/>} />
+
       </Routes>
      
     </div>
