@@ -13,9 +13,7 @@ import LandingPage from "./components/LandingPage.tsx";
 import Home from "./components/doctor/Home.tsx";
 import Messages from "./components/doctor/Message.tsx";
 import Profile from "./components/doctor/Profile.tsx";
-
-
-
+import Discussion from "./components/doctor/Discussion.tsx";
 
 
 const App = () => {
@@ -38,7 +36,7 @@ const App = () => {
         <Route path="/home" element={< Home/>} />
         <Route path="/messages" element={< Messages/>} />
         <Route path="/profile" element={< Profile/>} />
-
+        <Route path="/discussion" element={< Discussion/>} />
       </Routes>
      
     </div>
