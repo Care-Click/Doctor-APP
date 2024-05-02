@@ -9,6 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Discussion from '../doctor/Discussion';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,6 +50,7 @@ const Patients = () => {
   const navigate = useNavigate()
   const [patients, setPatients] = useState<Patient[]>([]);
   const [test, setTest] = useState(true);
+  const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,8 +69,10 @@ const Patients = () => {
   }, []);
 
   return (
-    <TableContainer component={Paper} sx={{ maxWidth: 1200, margin: 'auto', mt: 4 }}>
-      <Table aria-label="customized table">
+    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', margin: 'auto', maxWidth: 1200 }}>
+    <TableContainer component={Paper} sx={{ mt: 4 }}>
+      <Table aria-label="customized table mb-9">
         <TableHead style={{ backgroundColor: '#0053a0', color: "#FFFFFF" }}>
           <TableRow>
             <StyledTableCell>Profile Picture</StyledTableCell>
@@ -79,18 +83,31 @@ const Patients = () => {
         </TableHead>
         <TableBody>
           {patients.map((patient) => (
-            <StyledTableRow key={patient.id} onClick={() => navigate('/report', { state: { patientId: patient.id } })} className="border-blue-700 hover:bg-blue-300 cursor-pointer">
-              <StyledTableCell component="th" scope="row">
+            <StyledTableRow key={patient.id} className="border-blue-700 hover:bg-blue-300 cursor-pointer">
+              <StyledTableCell component="th" scope="row" >
                 <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
               </StyledTableCell>
-              <StyledTableCell>{patient.FullName}</StyledTableCell>
+              <StyledTableCell >{patient.FullName}</StyledTableCell>
               <StyledTableCell>{patient.email}</StyledTableCell>
-              <StyledTableCell>{patient.phone_number}</StyledTableCell>
+              <StyledTableCell onClick={() => setSelectedPatientId(patient.id)}>{patient.phone_number} 💬</StyledTableCell>
+              
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
+    <div className="chat-box flex mb-2.5  " style={{
+  position: 'fixed', 
+  bottom: 0,          
+  right: 0,           
+  width: '750px',     
+  height: '400px',     
+  overflow: 'auto' ,  
+}}>
+     {selectedPatientId && <Discussion patientId={selectedPatientId} />}
+     </div>
+     </div>
   );
 }
 
