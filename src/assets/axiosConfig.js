@@ -6,7 +6,9 @@ const instance = axios.create();
 
 instance.interceptors.request.use((config) => {
   if (token) {
-    config.headers.token = token;
+
+    config.headers.token = token
+
   }
   return config;
 });
