@@ -1,7 +1,8 @@
-import axios from "axios";
+import axios from "../../assets/axiosConfig";
 import React, { useEffect, useState } from "react";
-import { Country } from "react-phone-number-input/core";
+import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
+
 interface Patient {
   id: number | null;
   profile_picture: string;
@@ -10,10 +11,11 @@ interface Patient {
   phone_number: string;
   Gender: string;
   date_of_birth: string;
-  medicalInfo: Medinfo | {};
+  medicalInfo: Medinfo;
 }
+
 interface Medinfo {
-  id: number;
+  id: null | number;
   Imaging_test_results: string[];
   Chronic_Illness: string[];
   Medications: string[];
@@ -22,10 +24,15 @@ interface Medinfo {
   Allergies: string[];
   Familial_Medical_History: string[];
 }
+
 const Report = () => {
   const loca = useLocation();
   const { patientId } = loca.state;
-  const [patient, setPatient] = useState({
+  const [info,setInfo] =useState (false)
+
+  const { register, handleSubmit, setValue } = useForm(); // Initialize useForm
+
+  const [patient, setPatient] = useState<Patient>({
     id: null,
     profile_picture: "",
     FullName: "",
@@ -45,21 +52,17 @@ const Report = () => {
     Gender: "",
   });
 
-  const [location, setLocation] = useState({
-    city: "",
-    district: "",
-    country: "",
-  });
+  const [location, setLocation] = useState({});
+
   const [test, settest] = useState(true);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [description, setdesc] = useState("");
+
   const getPatient = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3001/api/doctors/patient/${patientId}`
+        `http://localhost:3000/api/doctors/patient/${patientId}`
       );
-      //setLocation(JSON.parse(data.location).place);
       setPatient(data);
+      setLocation(JSON.parse(data.location))
       settest(false);
     } catch (error) {
       console.log(error);
@@ -69,17 +72,8 @@ const Report = () => {
   useEffect(() => {
     getPatient();
   }, [test]);
-  const handleSelectChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
 
-  const handleInputChange = (e) => {
-    setdesc(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log({ selectedOption, description });
+  const onSubmit = async (data) => {
     let newreport = {
       Familial_Medical_History: [],
       Allergies: [],
@@ -89,66 +83,56 @@ const Report = () => {
       Chronic_Illness: [],
       Medications: [],
     };
-    newreport[selectedOption] = [description];
-    console.log(newreport);
+    newreport[data.selectedOption] = [data.description]; // Access selectedOption and description from form data
 
     try {
-      const {status} = await axios.post(
-        `http://localhost:3001/api/requests/raport/${patientId}`,newreport
+      const { status } = await axios.post(
+        `http://localhost:3000/api/requests/raport/${patientId}`,
+        newreport
       );
-    settest(!test)
-
+      settest(!test);
+      setInfo(false)
     } catch (error) {
       console.log(error);
     }
   };
 
-  return (
-    <div className="flex flex-col justify-center items-center min-h-screen ">
-      <div className="mb-8  container mx-auto rounded-md p-4 shadow-lg rounded-lg bg-[#7FD8BE] flex items-center bg-opacity-30">
-        <div className="w-1/2 mr-6 pr-4 ">
-          <div className="flex items-center justify-between ">
-            <div className="flex items-center pb-9">
-              <img
-                src={patient.profile_picture}
-                alt="Profile"
-                className="w-25 h-25 rounded-md mr-6 "
-              />
-              <div>
-                <h1 className="text-3xl font-bold">{patient?.FullName}</h1>
-                <h3 className="text-l font-bold"> ⚥ {patient?.Gender}</h3>
-                <p className="text-l font-bold"> 📞 {patient?.phone_number}</p>
-                <p className="text-l font-bold"> 🌐 {patient?.email}</p>
+  const showAddInfo = () => {
+    setInfo(true);
+  };
 
-                <p className="text-l font-bold">
-                📅 {new Date(patient?.date_of_birth).toLocaleDateString()}
-                </p>
-                <p className="text-l font-bold">
-                📍  {location.city}, {location.district},{" "}
-                  {location.country}
-                </p>
-              </div>
-            </div>
-          </div>
+  return (
+    <div className="flex  items-center min-h-screen p-9 bg-gray-100 bg-opacity-100">
+    <div className="container  p-9 ">
+           {/* Personal Information Section */}
+           <h2 className="text-2xl font-semibold mb-4">Personal Informations:</h2>
+        <div className="bg-[#A3FFD6] bg-opacity-60 rounded-lg shadow-lg p-4 max-w-2xl  mb-8">
+      <div className="flex items-center gap-6  ">
+        
+          <img src={patient.profile_picture} alt="Profile" className="w-30 h-40 rounded-md " />
           <div>
-            <h2 className="text-2xl font-semibold mb-4 ">
-              Medical Information :{" "}
-            </h2>
-            {patient.medicalInfo && (
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h3 className="text-xl font-semibold">
-                    Familial Medical History
-                  </h3>
-                  <ul>
-                    {patient.medicalInfo.Familial_Medical_History.map(
-                      (item, index) => (
-                        <li key={index}>{item}</li>
-                      )
-                    )}
-                  </ul>
-                </div>
-                <div>
+            <h1 className="text-3xl font-bold mb-3">{patient?.FullName}</h1>
+            <h3 className="text-l font-bold mb-1"> ⚥ {patient?.Gender}</h3>
+            <p className="text-l font-bold mb-1"> 📞 {patient?.phone_number}</p>
+            <p className="text-l font-bold mb-1"> 🌐 {patient?.email}</p>
+            <p className="text-l font-bold mb-1"> 📅 {new Date(patient?.date_of_birth).toLocaleDateString()}</p>
+            <p className="text-l font-bold mb-1"> 📍 {location.city}, {location.district}, {location.country}</p>
+          </div>
+        </div>
+      
+    </div>
+    <h2 className="text-2xl font-semibold mb-4">Medical Information:</h2>
+    <div className="flex justify-between  gap-8 w-full ">
+      {/* Medical Information Section */}
+      
+      <div className="bg-[#A3FFD6] bg-opacity-60 rounded-lg shadow-lg p-6 flex-row space-x-10"style={{ width: '600px' }}>
+    
+       
+        <div className="  flex  space-y-10 ">
+      {patient.medicalInfo && (
+        <div className=" grid grid-cols-2 gap-8 ">
+               
+                <div className="space-x-10">
                   <h3 className="text-xl font-semibold">Allergies</h3>
                   <ul>
                     {patient.medicalInfo.Allergies.map((item, index) => (
@@ -188,28 +172,22 @@ const Report = () => {
                     ))}
                   </ul>
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold">
-                    Imaging Test Results
-                  </h3>
-                  <ul>
-                    {patient.medicalInfo.Imaging_test_results.map(
-                      (item, index) => (
-                        <li key={index}>{item}</li>
-                      )
-                    )}
-                  </ul>
-                </div>
+                
               </div>
             )}
+             
+          </div>
+          <div>.</div>
+          <div style={{ textAlign: 'right'  }}>
+          <button className="bg-[rgba(242,98,104,0.75)] text-white py-2 px-6 tablet:px-3 rounded hover:bg-[#F26268] flex-col " onClick={showAddInfo} > Add Information </button>
           </div>
         </div>
 
-        {/* Dropdown and input form */}
-        <div className="w-1/2 pr-5 h-full">
-          <h2 className="text-lg font-bold mb-4 "> Add Information : </h2>
-
-          <form onSubmit={handleSubmit}>
+         {/* Add Information Section */}
+         
+         { info && <div className="bg-[#A3FFD6] bg-opacity-60 rounded-lg shadow-lg p-6 flex-grow " style={{ width: '600px' }}>
+        <h2 className="text-lg font-bold mb-4">Add Information:</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
             {/* Dropdown select */}
             <div>
               <label
@@ -221,8 +199,7 @@ const Report = () => {
               <select
                 id="dropdown"
                 className="block w-full appearance-none border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 bg-white px-4 py-2 pr-8"
-                value={selectedOption}
-                onChange={handleSelectChange}
+                {...register("selectedOption")} // Register selectedOption with useForm
               >
                 <option value="">Select an Info...</option>
                 <option value="Familial_Medical_History">
@@ -250,19 +227,21 @@ const Report = () => {
                 id="inputField"
                 className="w-full p-9  rounded-md shadow-sm focus:border-blue-500 border border-gray-300"
                 placeholder="Your message here..."
-                onChange={handleInputChange}
+                {...register("description")} // Register description with useForm
               />
             </div>
             {/* Submit button */}
             <div>
-              <button className="bg-[rgba(242,98,104,0.75)] text-white py-2 px-4 tablet:px-3 rounded hover:bg-[#F26268] flex items-center w-15 ml-50 ">
+              <button type="submit" className="bg-[rgba(242,98,104,0.75)] text-white py-2 px-4 tablet:px-3 rounded hover:bg-[#F26268] flex items-center w-15 ml-50 ">
                 Save
               </button>
             </div>
           </form>
-        </div>
+        </div>}
       </div>
-    </div>
+      </div>
+      </div>
+    
   );
 };
 

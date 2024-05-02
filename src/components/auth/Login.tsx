@@ -1,121 +1,132 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import "../../App.css";
 
+// Define types for form values and component props
+interface LoginFormValues {
+  email: string;
+  password: string;
+  serverError: string;
+}
+
+
+
+// Login component
 const Login = ({setToken}) => {
-  
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
+  // React Hook Form setup
+  const { register, handleSubmit, setError, formState: { errors } } = useForm<
+    LoginFormValues
+  >();
   const navigate = useNavigate();
-
-  const handleLogin = async (event: { preventDefault: () => void }) => {
-    event.preventDefault();
- 
+  const signin = async (data) => {
     try {
-      const info = { email, password };
-      const { status, data } = await axios.post(
-        "http://localhost:3001/api/doctors/signin",
-        info
+      const { email, password } = data;
+      const response = await axios.post(
+        "http://localhost:3000/api/doctors/signin",
+        { email, password }
       );
-      //console.log (data)
-      const { token, loggedUser } = data;
+      const token = response.data.token;
 
-      localStorage.setItem("token", token); // Store the token
-      setToken(token) 
-      console.log("Logged in user:", loggedUser);
-      navigate("/requests");
+      localStorage.setItem("token", token)
+      setToken(token)
+      navigate("/requests")
+
+
     } catch (error) {
+      console.log(error);
+      
       if (error.response) {
-        setErrorMessage(
-          error.response.data.error || "An error occurred during login"
-        );
+        setError("serverError" as any, { type: "manual", message: error.response.data.error });
       } else {
-        setErrorMessage(
-          "Cannot connect to the server. Please try again later."
-        );
+        setError("serverError" as any, { type: "manual", message: "Cannot connect to the server." });
       }
     }
   };
 
   return (
-    <div className="overflow-x-hidden flex bg-gray-100">
-      <div className="grid grid-cols-[1fr_2fr] ">
-        <div
-          className="h-screen opacity-90 shadow text-white "
-          style={{
-            backgroundImage: `url(/Capture1.PNG)`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-          }}
+
+    <div className="grid grid-cols-[1fr_2fr] min-h-screen">
+      <div
+  className="flex items-center justify-center bg-cover bg-no-repeat text-white"
+  style={{
+    backgroundImage: `url('/src/assets/images/Capture1.png')`,
+    backgroundPosition: 'center center',
+    minHeight: '100vh',
+    maxWidth: '500px',
+    width: '100%', 
+    
+  }}
+>
+  <div className="flex flex-col justify-center items-center h-full w-full bg-[#ade8f4] bg-opacity-40 p-4">
+    <h1 className="text-6xl font-bold">HOPE FOR HUMANITY</h1>
+    <h1 className="text-4xl mt-4">Welcome  to CareClick</h1>
+  </div>
+</div>
+      
+      <div className="flex justify-center items-center bg-[#f6fff8]">
+        <form
+          className="w-[450px] mx-auto p-[30px] rounded-md shadow-2xl items-center   "
+          onSubmit={handleSubmit(signin)}
         >
-          <div className="bg-[#1DBED3] h-full bg-opacity-30 p-12">
-            <h1 className="text-6xl font-bold mb-4">HOPE FOR HUMANITY</h1>
-            <p className="text-2xl">Welcome to hope for humanity</p>
-          </div>
-        </div>
-        <div className="flex justify-center items-center">
-          <form
-            className="w-[400px] mx-auto p-[30px] rounded-md shadow-lg"
-            onSubmit={handleLogin}
-          >
-            <h1 className="text-center text-3xl text-[#1DBED3] font-semibold mb-10">
-              Sign in your account
-            </h1>
-            <div className="mb-6">
-              <label className="text-gray-700 text-lg" htmlFor="email">
-                Email
-              </label>
-              <input
-                id="email"
-                className="form-control block w-full px-3 py-2 mb-3 border border-gray-300 rounded-md"
-                placeholder="ex: jon.smith@email.com"
-                onChange={(event) => setEmail(event.target.value)}
-                type="email"
-                required
-              />
-            </div>
-            <div className="mb-6">
-              <label className="text-gray-700 text-lg" htmlFor="password">
-                Password
-              </label>
-              <input
-                id="password"
-                className="form-control block w-full px-3 py-2 mb-3 border border-gray-300 rounded-md"
-                placeholder="••••••••"
-                onChange={(event) => setPassword(event.target.value)}
-                type="password"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-[#1DBED3] text-white p-3 rounded-md hover:bg-blue-600"
-            >
-              SIGN IN
-            </button>
-            {errorMessage && (
-              <div className="text-red-500 text-center mt-2">
-                {errorMessage}
-              </div>
+          <h1 className="text-center text-3xl text-[#1DBED3] font-semibold mb-10">
+            Sign in your account
+          </h1>
+          <div className="mb-6">
+            <label className="text-gray-700 text-lg" htmlFor="email">
+              Email
+            </label>
+            <input
+              id="email"
+              {...register("email", { required: "Email is required" })}
+              className={`form-control block w-full px-3 py-2 mb-3 border border-gray-400 rounded-md ${errors.email && 'border-red-500'}`}
+              placeholder="ex: jon.smith@email.com"
+              type="email"
+            />
+            {errors.email && (
+              <div className="text-red-500 text-sm">{errors.email.message}</div>
             )}
-            <div className="text-center mt-4 text-gray-600">
-              Don't have an account?{" "}
-              <Link
-                to="/join-us"
-                className="text-[#1DBED3] hover:text-blue-600"
-              >
-                SIGN UP
-              </Link>
+          </div>
+          <div className="mb-6">
+            <label className="text-gray-700 text-lg" htmlFor="password">
+              Password
+            </label>
+            <input
+              id="password"
+              {...register("password", { required: "Password is required" })}
+              className={`form-control block w-full px-3 py-2 mb-3 border border-gray-400 rounded-md ${errors.password && 'border-red-500'}`}
+              placeholder="••••••••"
+              type="password"
+            />
+            {errors.password && (
+              <div className="text-red-500 text-sm">{errors.password.message}</div>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="block w-full px-3 py-2 bg-[#1DBED3] hover:bg-blue-700 text-white font-semibold rounded focus:outline-none focus:shadow-outline "
+          >
+            SIGN IN
+          </button>
+          {errors.serverError && (
+            <div className="text-red-500 text-sm mt-2">
+              {errors.serverError.message}
             </div>
-          </form>
-        </div>
+          )}
+          <div className="text-center mt-4 text-gray-600">
+            Don't have an account?{" "}
+            <Link
+              to="/join-us"
+              className="text-[#1DBED3] hover:text-blue-600"
+            >
+              SIGN UP
+            </Link>
+          </div>
+        </form>
       </div>
     </div>
+
   );
 };
 

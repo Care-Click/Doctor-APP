@@ -1,10 +1,10 @@
 import React from 'react'
 
-function Home() {
+function LandingPage() {
   return (
     <div className="flex justify-center items-center">
    
-    <div className="flex-1 flex items-center bg-white text-gray-800 px-4">
+    <div className="flex-1 flex items-center bg-white text-gray-800 px-4 mt-50">
       <div className="max-w-md mx-auto">
         <h1 className="text-3xl lg:text-4xl font-bold mb-4">
           Your Premier Destination for Compassionate Care
@@ -18,11 +18,11 @@ function Home() {
       </div>
     </div>
     
-    <div className="flex-1">
-      <img src="/Homepage.png" alt="Healthcare Professional and Patient" className="object-cover w-350" />
+    <div className="flex-1 mt-20">
+      <img src="src\assets\images\Homepage.png" alt="Healthcare Professional and Patient" className="object-cover w-350" />
     </div>
   </div>
   )
 }
 
-export default Home
+export default LandingPage

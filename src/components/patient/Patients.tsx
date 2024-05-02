@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-   
+
     color: theme.palette.common.white,
     padding: theme.spacing(1, 2)
   },
@@ -43,55 +43,53 @@ interface Patient {
 
 
 const Patients = () => {
- let token = localStorage.getItem("token")
- console.log(token)
 
-  
+
+
   const navigate = useNavigate()
   const [patients, setPatients] = useState<Patient[]>([]);
+  const [test, setTest] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      const token=localStorage.getItem("token")
       try {
-        const response = await axios.get<Patient[]>(`http://localhost:3000/api/doctors/${token}/patients`);
+        const response = await axios.get<Patient[]>(`http://localhost:3000/api/doctors/patients`,{headers:{"token":token}});
         setPatients(response.data);
-        console.log(patients);
-        
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-    console.log(patients);
-
+    setTest(!test)
   }, []);
 
   return (
     <TableContainer component={Paper} sx={{ maxWidth: 1200, margin: 'auto', mt: 4 }}>
-    <Table aria-label="customized table">
-      <TableHead style={{ backgroundColor: '#0053a0', color: "#FFFFFF" }}>
-        <TableRow>
-          <StyledTableCell>Profile Picture</StyledTableCell>
-          <StyledTableCell>Full Name</StyledTableCell>
-          <StyledTableCell>Email</StyledTableCell>
-          <StyledTableCell>Phone Number</StyledTableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {patients.map((patient) => (
-          <StyledTableRow key={patient.id} onClick={() => navigate('/report',{state:{patientId:patient.id}})}  className="border-blue-700 hover:bg-blue-300 cursor-pointer">
-            <StyledTableCell component="th" scope="row">
-              <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
-            </StyledTableCell>
-            <StyledTableCell>{patient.FullName}</StyledTableCell>
-            <StyledTableCell>{patient.email}</StyledTableCell>
-            <StyledTableCell>{patient.phone_number}</StyledTableCell>
-          </StyledTableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+      <Table aria-label="customized table">
+        <TableHead style={{ backgroundColor: '#0053a0', color: "#FFFFFF" }}>
+          <TableRow>
+            <StyledTableCell>Profile Picture</StyledTableCell>
+            <StyledTableCell>Full Name</StyledTableCell>
+            <StyledTableCell>Email</StyledTableCell>
+            <StyledTableCell>Phone Number</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {patients.map((patient) => (
+            <StyledTableRow key={patient.id} onClick={() => navigate('/report', { state: { patientId: patient.id } })} className="border-blue-700 hover:bg-blue-300 cursor-pointer">
+              <StyledTableCell component="th" scope="row">
+                <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
+              </StyledTableCell>
+              <StyledTableCell>{patient.FullName}</StyledTableCell>
+              <StyledTableCell>{patient.email}</StyledTableCell>
+              <StyledTableCell>{patient.phone_number}</StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
 
 export default Patients;
