@@ -7,16 +7,17 @@ import {
   TileLayer,
   useMapEvents,
 } from "react-leaflet";
+
 let loca = {};
+
 const Location = ({setLocation}) => {
-  const [clickedPosition, setClickedPosition] = useState(null);
+  const [clickedPosition, setClickedPosition] = useState({longitude:0,latitude:0,place:{city:"",country:""}});
   const LocationMarker = ({ setClickedPosition }) => {
     const handleConvert = async (loca) => {
       try {
         const response = await axios.get(
           `https://nominatim.openstreetmap.org/reverse?lat=${parseFloat(loca.lat)}&lon=${parseFloat(loca.lng)}&format=json&accept-language= fr`
         );
-        console.log(response);
 
         return response.data.address;
       } catch (error) {
@@ -27,7 +28,6 @@ const Location = ({setLocation}) => {
       click: async (e) => {
         loca = e.latlng;
         let result = await handleConvert(loca);
-        console.log(result);
 
         if (result) {
           setLocation({

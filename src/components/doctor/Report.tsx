@@ -1,6 +1,7 @@
 import axios from "../../assets/axiosConfig";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Country } from "react-phone-number-input/core";
 import { useLocation } from "react-router-dom";
 
 interface Patient {
@@ -52,7 +53,7 @@ const Report = () => {
     Gender: "",
   });
 
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState({city:"",district:"",country:""});
 
   const [test, settest] = useState(true);
 
@@ -97,9 +98,35 @@ const Report = () => {
     }
   };
 
+
   const showAddInfo = () => {
     setInfo(true);
   };
+
+  return (
+    <div className="flex flex-col justify-center items-center min-h-screen ">
+      <div className="mb-8  container mx-auto p-4 shadow-lg rounded-lg bg-[#7FD8BE] flex items-center bg-opacity-30">
+        <div className="w-1/2 mr-6 pr-4 ">
+          <div className="flex items-center justify-between ">
+            <div className="flex items-center pb-9">
+              <img
+                src={patient.profile_picture}
+                alt="Profile"
+                className="w-30 h-40 rounded-md mr-6 "
+              />
+              <div>
+                <h1 className="text-3xl font-bold">{patient?.FullName}</h1>
+                <h3 className="text-l font-bold"> ⚥ {patient?.Gender}</h3>
+                <p className="text-l font-bold"> 📞 {patient?.phone_number}</p>
+                <p className="text-l font-bold"> 🌐 {patient?.email}</p>
+
+                <p className="text-l font-bold">
+                  📅 {new Date(patient?.date_of_birth).toLocaleDateString()}
+                </p>
+                <p className="text-l font-bold">
+                  📍 {location.city}, {location.district}, {location.country}
+                </p>
+
 
   return (
     <div className="flex  items-center min-h-screen p-9 bg-gray-100 bg-opacity-100">
