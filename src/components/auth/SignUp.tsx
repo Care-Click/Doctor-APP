@@ -46,7 +46,8 @@ const SignUp = () => {
   // Handle submission for the left form
   const handleNext = data => {
     console.log(data); 
-    setNext(true); 
+    if (data.email && data.password && data.confirmPassword === data.password) {
+    setNext(true); }
   };
   const [location, setLocation] = useState({
     latitude: 0,
@@ -107,12 +108,28 @@ const SignUp = () => {
       console.log(error);
     }
   };
-//console.log("💰💰",location);
+
 
   return (
-    <div className="grid grid-cols-2  h-screen bg-[#f6fff8] ">
+       <div className="grid grid-cols-[1fr_2fr] min-h-screen bg-[#f6fff8] ">
+      <div
+  className="flex items-center justify-center bg-cover bg-no-repeat text-white "
+  style={{
+    backgroundImage: `url('/src/assets/images/Capture1.png')`,
+    backgroundPosition: 'center center',
+    minHeight: '100vh',
+    maxWidth: '500px',
+    width: '100%', 
+    
+  }}
+>
+  <div className="flex flex-col justify-center items-center h-full w-full bg-[#ade8f4] bg-opacity-40 p-4">
+    <h1 className="text-6xl font-bold">HOPE FOR HUMANITY</h1>
+    <h1 className="text-4xl mt-4">Welcome  to CareClick</h1>
+  </div>
+</div>
       {/* Left Half */}
-      <div className=" p-20 overflow-x-hidden">
+      {!next && <div className=" p-20 overflow-x-hidden">
         <form className="max-w-2xl p-10 bg-[#ccecd6] rounded-md shadow-lg mt-14" onSubmit={handleSubmit(handleNext)}>
           {/* Email */}
           <div className="p-3">
@@ -170,9 +187,9 @@ const SignUp = () => {
             Next
           </button>
         </form>
-      </div>
+      </div>}
       {/* Right Half */}
-      {next && <div className="bg-[#f6fff8]  border border-gray-300 p-20 overflow-x-hidden">
+      {next && <div className="p-20 overflow-x-hidden  ml-10">
         <form className="max-w-2xl p-10 bg-[#ccecd6] rounded-md shadow-lg mt-6" onSubmit={handleSubmit(handleSignUp)}>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Image input */}
