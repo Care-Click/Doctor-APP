@@ -104,7 +104,7 @@ const Calender = () => {
             Appointments for {selectedDate.toDateString()}
           </h3>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+            className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
             onClick={() => setShowModal(true)}
           >
             Add Appointment
@@ -226,7 +226,7 @@ const Calender = () => {
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                   <button
                     type="submit"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 sm:ml-3 sm:w-auto sm:text-sm"
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#A3FFD6] text-base font-medium text-white hover:bg-[#4be39f] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 sm:ml-3 sm:w-auto sm:text-sm"
                   >
                     Add Appointment
                   </button>
