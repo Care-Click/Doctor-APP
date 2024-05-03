@@ -2,9 +2,25 @@ import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import axios from "../../assets/axiosConfig";
-
+interface Doctor {
+  id: number;
+  FullName: string;
+  date_of_birth: string;
+  email: string;
+  gender: string;
+  phone_number: string;
+  profile_picture: string;
+  speciality: string;
+  MedicalExp: {
+      bio: string;
+      doctorId: number | null;
+      id: number | null;
+      id_card: string;
+      medical_id: string;
+  };
+}
 interface AppointmentDataUpdate extends Partial<Appointment> {
-  appointmentTime?: string; // Add appointmentTime as an optional property
+  appointmentTime?: string; 
 }
 interface Appointment {
   id: number;
@@ -29,13 +45,13 @@ const Calender = () => {
   const getAppointments = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/appointment/getAppointements`,{headers:{"token":token}}
+        `http://localhost:3000/api/appointment/getAppointements/${doctor?.id}`,{headers:{"token":token}}
       );
       setAppointments(data);
       
     } catch (error) {
       console.error("Error fetching appointments:", error);
-      throw error;
+     
     }
   };
 
@@ -43,6 +59,7 @@ const Calender = () => {
     setSelectedDate(date);
     setAppointmentData({ ...appointmentData, dateTime: date.toISOString() }); 
   };
+  const [doctor, setDoctor] = useState<Doctor>();
 
   const handleAppointmentFormSubmit = async (e) => {
     e.preventDefault();
@@ -64,17 +81,29 @@ const Calender = () => {
       new Date(appointment.dateTime).getMonth() === selectedDate.getMonth() &&
       new Date(appointment.dateTime).getDate() === selectedDate.getDate()
   );
+  const getDoctor = async () => {
+    let token = localStorage.getItem('token');
+
+    try {
+        const response = await axios.get('http://localhost:3000/api/doctors/getDoctor', { headers: { "token": token } });
+        setDoctor(response.data)
+    } catch (error) {
+        console.log(error);
+    }
+};
   useEffect(() => {
+    getDoctor()
+    
     getAppointments();
   }, [showModal]);
   const  handleSubmit= async (e)=> {
     e.preventDefault();
-
+    let data={...appointmentData,doctorId:doctor.id,};
+  console.log(data);
+  
     try {
-      const response = await axios.post(`http://localhost:3000/api/appointment/addAppointement`, appointmentData,{headers:{"token":token}})
-      console.log(selectedDate);
-      
-      console.log('New appointment created:', response.data);
+      const response = await axios.post(`http://localhost:3000/api/appointment/addAppointement/${doctor.id}`,data,{headers:{"token":token}})
+      console.log('New appointment created:', response.data);  
       getAppointments();
       setShowModal(false);
     } 
@@ -91,57 +120,49 @@ const Calender = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 ml-70 flex-1" >
-      <div className="container mx-auto px-4 py-8 ml-7 flex-1">
-  <div className="flex flex-row">
-    {/* First part */}
-    <div className="flex flex-col items-center">
+    <div className="container mx-auto px-4 py-8 ml-7">
       <h2 className="text-2xl font-bold mb-4 text-blue-800">
         Appointment Calendar
       </h2>
-      <div className="">
+      <div className="calendar-wrapper ">
         <Calendar
           onChange={handleDateChange}
           value={selectedDate}
+          
         />
-      </div>
-    </div>
-    {/* Second part */}
-    <div className="appointments-wrapper ml-4">
-      <h3 className="text-lg font-semibold mb-2 text-blue-700">
-        Appointments for {selectedDate.toDateString()}
-      </h3>
-      <button
-        className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
-        onClick={() => setShowModal(true)}
-      >
-        Add Appointment
-      </button>
-      {filteredAppointments.length > 0 ? (
-        <ul>
-          {filteredAppointments.map((appointment, index) => (
-            <li
-              key={index}
-              className="py-2 text-blue-900 border-l-4 border-blue-500 pl-2 mb-2 rounded-md"
-            >
-              <h1 className="font-bold text-red-600">
-                {new Date(appointment.dateTime).toLocaleTimeString()}
-              </h1>{" "}
-              -{" "}
-              <span className="text-blue-700">
-                {appointment.PatientName}
-              </span>{" "}
-              - {appointment.description}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-red-600">No appointments for this date.</p>
-      )}
-    </div>
-  </div>
 
-
+        <div className="appointments-wrapper">
+          <h3 className="text-lg font-semibold mb-2 text-blue-700">
+            Appointments for {selectedDate.toDateString()}
+          </h3>
+          <button
+            className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
+            onClick={() => setShowModal(true)}
+          >
+            Add Appointment
+          </button>
+          {filteredAppointments.length > 0 ? (
+            <ul>
+              {filteredAppointments.map((appointment, index) => (
+                <li
+                  key={index}
+                  className="py-2 text-blue-900 border-l-4 border-blue-500 pl-2 mb-2 rounded-md"
+                >
+                  <h1 className="font-bold text-red-600">
+                    {new Date(appointment.dateTime).toLocaleTimeString()}
+                  </h1>{" "}
+                  -{" "}
+                  <span className="text-blue-700">
+                    {appointment.PatientName}
+                  </span>{" "}
+                  - {appointment.description}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-red-600">No appointments for this date.</p>
+          )}
+        </div>
       </div>
       {/* Modal for adding appointment */}
       {showModal && (
@@ -216,7 +237,7 @@ const Calender = () => {
                       type="time"
                       id="appointmentTime"
                       name="appointmentTime"
-                      value={appointmentData.dateTime}
+                      defaultValue={appointmentData.dateTime}
                       onChange={(e)=>{ handleInputChange(e)
                         const selectedTime = e.target.value; 
                         const currentTime = selectedDate.toISOString().slice(0, 10); 
