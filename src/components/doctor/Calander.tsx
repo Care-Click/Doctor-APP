@@ -98,12 +98,14 @@ const Calender = () => {
   }, [showModal]);
   const  handleSubmit= async (e)=> {
     e.preventDefault();
+
     let data={...appointmentData,doctorId:doctor.id,};
   console.log(data);
   
     try {
       const response = await axios.post(`http://localhost:3000/api/appointment/addAppointement/${doctor.id}`,data,{headers:{"token":token}})
       console.log('New appointment created:', response.data);  
+
       getAppointments();
       setShowModal(false);
     } 
@@ -120,49 +122,57 @@ const Calender = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 ml-7">
+    <div className="container mx-auto px-4 py-8 ml-70 flex-1" >
+      <div className="container mx-auto px-4 py-8 ml-7 flex-1">
+  <div className="flex flex-row">
+    {/* First part */}
+    <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4 text-blue-800">
         Appointment Calendar
       </h2>
-      <div className="calendar-wrapper ">
+      <div className="">
         <Calendar
           onChange={handleDateChange}
           value={selectedDate}
-          
         />
+      </div>
+    </div>
+    {/* Second part */}
+    <div className="appointments-wrapper ml-4">
+      <h3 className="text-lg font-semibold mb-2 text-blue-700">
+        Appointments for {selectedDate.toDateString()}
+      </h3>
+      <button
+        className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
+        onClick={() => setShowModal(true)}
+      >
+        Add Appointment
+      </button>
+      {filteredAppointments.length > 0 ? (
+        <ul>
+          {filteredAppointments.map((appointment, index) => (
+            <li
+              key={index}
+              className="py-2 text-blue-900 border-l-4 border-blue-500 pl-2 mb-2 rounded-md"
+            >
+              <h1 className="font-bold text-red-600">
+                {new Date(appointment.dateTime).toLocaleTimeString()}
+              </h1>{" "}
+              -{" "}
+              <span className="text-blue-700">
+                {appointment.PatientName}
+              </span>{" "}
+              - {appointment.description}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-red-600">No appointments for this date.</p>
+      )}
+    </div>
+  </div>
 
-        <div className="appointments-wrapper">
-          <h3 className="text-lg font-semibold mb-2 text-blue-700">
-            Appointments for {selectedDate.toDateString()}
-          </h3>
-          <button
-            className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
-            onClick={() => setShowModal(true)}
-          >
-            Add Appointment
-          </button>
-          {filteredAppointments.length > 0 ? (
-            <ul>
-              {filteredAppointments.map((appointment, index) => (
-                <li
-                  key={index}
-                  className="py-2 text-blue-900 border-l-4 border-blue-500 pl-2 mb-2 rounded-md"
-                >
-                  <h1 className="font-bold text-red-600">
-                    {new Date(appointment.dateTime).toLocaleTimeString()}
-                  </h1>{" "}
-                  -{" "}
-                  <span className="text-blue-700">
-                    {appointment.PatientName}
-                  </span>{" "}
-                  - {appointment.description}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-red-600">No appointments for this date.</p>
-          )}
-        </div>
+
       </div>
       {/* Modal for adding appointment */}
       {showModal && (

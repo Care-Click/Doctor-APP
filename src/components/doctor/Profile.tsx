@@ -80,9 +80,10 @@ const Profile = () => {
 
     // Function to submit form data
     const onSubmit = async (data: Partial<Doctor>) => {
+
         let token = localStorage.getItem('token');
         const formData = new FormData()
-        formData.append('data', data as any)
+        formData.append('data',JSON.stringify(data))
         formData.append('imageUrl', imageUrl)
         formData.append('location', JSON.stringify(location))
 
