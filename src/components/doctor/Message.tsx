@@ -12,9 +12,10 @@ const Messages = () => {
   const [activePolling, setActivePolling] = useState(null); 
 
   const fetchMessages = async () => {
+    let token = localStorage.getItem('token')
     try {
       const { data } = await axios.get(
-        "http://localhost:3000/api/messages/messagesDoc"
+        "http://localhost:3000/api/messages/messagesDoc",{headers:{"token":token}}
       );
       setMessagesReceived(data);
       //console.log(data);
