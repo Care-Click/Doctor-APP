@@ -14,6 +14,7 @@ import Home from "./components/doctor/Home.tsx";
 import Messages from "./components/doctor/Message.tsx";
 import Profile from "./components/doctor/Profile.tsx";
 import Discussion from "./components/doctor/Discussion.tsx";
+import Learnmore from "./components/Learnmore.tsx";
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
       {!token?<Navbar/>:<LoggedNavbar/>}
       <Routes>
        <Route path="/" element={<LandingPage />} />
+       <Route path="/learnmore" element={<Learnmore />} />
         <Route path="/login" element={<Login setToken={setToken} />} />
         <Route path="/join-us" element={<SignUp />} />
         <Route path="/patients" element={<Patients />} />
