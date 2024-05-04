@@ -11,62 +11,70 @@ interface LoginFormValues {
   serverError: string;
 }
 
-
-
 // Login component
-const Login = ({setToken}) => {
+const Login = ({ setToken }) => {
   // React Hook Form setup
-  const { register, handleSubmit, setError, formState: { errors } } = useForm<
-    LoginFormValues
-  >();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<LoginFormValues>();
   const navigate = useNavigate();
   const signin = async (data) => {
     try {
       const { email, password } = data;
-   
-      
+
       const response = await axios.post(
         "http://localhost:3000/api/doctors/signin",
         { email, password }
       );
       const token = response.data.token;
 
-      localStorage.setItem("token", token)
-      setToken(token)
-      navigate("/requests")
-
-
+      localStorage.setItem("token", token);
+      setToken(token);
+      navigate("/requests");
     } catch (error) {
       console.log(error);
-      
+
       if (error.response) {
-        setError("serverError" as any, { type: "manual", message: error.response.data.error });
+        setError("serverError" as any, {
+          type: "manual",
+          message: error.response.data.error,
+        });
       } else {
-        setError("serverError" as any, { type: "manual", message: "Cannot connect to the server." });
+        setError("serverError" as any, {
+          type: "manual",
+          message: "Cannot connect to the server.",
+        });
       }
     }
   };
 
   return (
-
     <div className="grid grid-cols-[1fr_2fr] min-h-screen">
       <div
-  className="flex items-center justify-center bg-cover bg-no-repeat text-white"
-  style={{
-    backgroundImage: `url('/src/assets/images/Capture1.png')`,
-    backgroundPosition: 'center center',
-    minHeight: '100vh',
-    maxWidth: '500px',
-    width: '100%', 
-    
-  }}
->
-  <div className="flex flex-col justify-center items-center h-full w-full bg-[#ade8f4] bg-opacity-40 p-4">
-    <h1 className="text-6xl font-bold">HOPE FOR HUMANITY</h1>
-    <h1 className="text-4xl mt-4">Welcome  to CareClick</h1>
-  </div>
-</div>
-      
+        className="flex items-center justify-center bg-cover bg-no-repeat text-white"
+        style={{
+          backgroundImage: `url('/src/assets/images/Capture1.png')`,
+          backgroundPosition: "center center",
+          minHeight: "100vh",
+          maxWidth: "500px",
+          width: "100%",
+        }}
+      >
+        <div
+          className="flex flex-col justify-center items-center h-full w-full bg-opacity-10 p-4"
+          style={{
+            backgroundImage:
+              "linear-gradient(0.01deg, #1DBED3 -1%, rgba(10, 107, 158, 0.801566) 59.1%, rgba(52, 167, 81, 0) 301.87%)",
+          }}
+        >
+          <h1 className="text-6xl font-bold">HOPE FOR HUMANITY</h1>
+          <h1 className="text-4xl mt-4">Welcome to CareClick</h1>
+        </div>
+      </div>
+
       <div className="flex justify-center items-center bg-[#f6fff8]">
         <form
           className="w-[450px] mx-auto p-[30px] rounded-md shadow-2xl items-center   "
@@ -82,7 +90,9 @@ const Login = ({setToken}) => {
             <input
               id="email"
               {...register("email", { required: "Email is required" })}
-              className={`form-control block w-full px-3 py-2 mb-3 border border-gray-400 rounded-md ${errors.email && 'border-red-500'}`}
+              className={`form-control block w-full px-3 py-2 mb-3 border border-gray-400 rounded-md ${
+                errors.email && "border-red-500"
+              }`}
               placeholder="ex: jon.smith@email.com"
               type="email"
             />
@@ -97,12 +107,16 @@ const Login = ({setToken}) => {
             <input
               id="password"
               {...register("password", { required: "Password is required" })}
-              className={`form-control block w-full px-3 py-2 mb-3 border border-gray-400 rounded-md ${errors.password && 'border-red-500'}`}
+              className={`form-control block w-full px-3 py-2 mb-3 border border-gray-400 rounded-md ${
+                errors.password && "border-red-500"
+              }`}
               placeholder="••••••••"
               type="password"
             />
             {errors.password && (
-              <div className="text-red-500 text-sm">{errors.password.message}</div>
+              <div className="text-red-500 text-sm">
+                {errors.password.message}
+              </div>
             )}
           </div>
           <button
@@ -118,17 +132,13 @@ const Login = ({setToken}) => {
           )}
           <div className="text-center mt-4 text-gray-600">
             Don't have an account?{" "}
-            <Link
-              to="/join-us"
-              className="text-[#1DBED3] hover:text-blue-600"
-            >
+            <Link to="/join-us" className="text-[#1DBED3] hover:text-blue-600">
               SIGN UP
             </Link>
           </div>
         </form>
       </div>
     </div>
-
   );
 };
 
