@@ -9,11 +9,13 @@ const Messages = () => {
   const [patient, setPatient] = useState({});
   const [newMessageContent, setNewMessageContent] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const [activePolling, setActivePolling] = useState(null); 
 
   const fetchMessages = async () => {
+    let token = localStorage.getItem('token')
     try {
       const { data } = await axios.get(
-        "http://localhost:3000/api/messages/messagesDoc"
+        "http://localhost:3000/api/messages/messagesDoc",{headers:{"token":token}}
       );
       setMessagesReceived(data);
       //console.log(data);
@@ -22,26 +24,50 @@ const Messages = () => {
     }
   };
 
+
   useEffect(() => {
-    fetchMessages();
+    fetchMessages();  
+
+    const interval = setInterval(() => {
+      fetchMessages();  
+    }, 15000);
+
+    return () => clearInterval(interval);  
   }, []);
 
   const handleJoinConversation = async (patientId) => {
     console.log("Join conversation with patient ID:", patientId);
-    try {
-      const { data } = await axios.get(
-        `http://localhost:3000/api/messages/messageD/${patientId}`
-      );
-      //console.log(response)
-      setMessageList(data.messages);
+    if (activePolling) {
+      clearInterval(activePolling);  
+    }
 
+    try {
+      const { data } = await axios.get(`http://localhost:3000/api/messages/messageD/${patientId}`);
+      setMessageList(data.messages);
       setDoctor(data.doctor);
       setPatient(data.patient);
-      setShowInput (true)
+      setShowInput(true);
+
+      const interval = setInterval(async () => {
+        const response = await axios.get(`http://localhost:3000/api/messages/messageD/${patientId}`);
+        setMessageList(response.data.messages);  
+      }, 15000);  
+
+      setActivePolling(interval);  
     } catch (error) {
       console.error("Failed to fetch messages:", error);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (activePolling) {
+        clearInterval(activePolling);  
+      }
+    };
+  }, [activePolling]);
+
+  
   const sendMessage = async () => {
     try {
       const response = await axios.post(

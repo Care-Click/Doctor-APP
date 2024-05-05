@@ -2,9 +2,25 @@ import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import axios from "../../assets/axiosConfig";
-
+interface Doctor {
+  id: number;
+  FullName: string;
+  date_of_birth: string;
+  email: string;
+  gender: string;
+  phone_number: string;
+  profile_picture: string;
+  speciality: string;
+  MedicalExp: {
+      bio: string;
+      doctorId: number | null;
+      id: number | null;
+      id_card: string;
+      medical_id: string;
+  };
+}
 interface AppointmentDataUpdate extends Partial<Appointment> {
-  appointmentTime?: string; // Add appointmentTime as an optional property
+  appointmentTime?: string; 
 }
 interface Appointment {
   id: number;
@@ -29,13 +45,13 @@ const Calender = () => {
   const getAppointments = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/api/appointment/getAppointements`,{headers:{"token":token}}
+        `http://localhost:3000/api/appointment/getAppointements/${doctor?.id}`,{headers:{"token":token}}
       );
       setAppointments(data);
       
     } catch (error) {
       console.error("Error fetching appointments:", error);
-      throw error;
+     
     }
   };
 
@@ -43,6 +59,7 @@ const Calender = () => {
     setSelectedDate(date);
     setAppointmentData({ ...appointmentData, dateTime: date.toISOString() }); 
   };
+  const [doctor, setDoctor] = useState<Doctor>();
 
   const handleAppointmentFormSubmit = async (e) => {
     e.preventDefault();
@@ -64,14 +81,29 @@ const Calender = () => {
       new Date(appointment.dateTime).getMonth() === selectedDate.getMonth() &&
       new Date(appointment.dateTime).getDate() === selectedDate.getDate()
   );
+  const getDoctor = async () => {
+    let token = localStorage.getItem('token');
+
+    try {
+        const response = await axios.get('http://localhost:3000/api/doctors/getDoctor', { headers: { "token": token } });
+        setDoctor(response.data)
+    } catch (error) {
+        console.log(error);
+    }
+};
   useEffect(() => {
+    getDoctor()
+    
     getAppointments();
   }, [showModal]);
   const  handleSubmit= async (e)=> {
     e.preventDefault();
+    let data={...appointmentData,doctorId:doctor.id,};
+  console.log(data);
+  
     try {
-      const response = await axios.post(`http://localhost:3000/api/appointment/addAppointement`, appointmentData,{headers:{"token":token}})
-      console.log('New appointment created:', response.data);
+      const response = await axios.post(`http://localhost:3000/api/appointment/addAppointement/${doctor.id}`,data,{headers:{"token":token}})
+      console.log('New appointment created:', response.data);  
       getAppointments();
       setShowModal(false);
     } 
@@ -205,7 +237,7 @@ const Calender = () => {
                       type="time"
                       id="appointmentTime"
                       name="appointmentTime"
-                      value={appointmentData.dateTime}
+                      defaultValue={appointmentData.dateTime}
                       onChange={(e)=>{ handleInputChange(e)
                         const selectedTime = e.target.value; 
                         const currentTime = selectedDate.toISOString().slice(0, 10); 

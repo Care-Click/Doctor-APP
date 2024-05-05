@@ -102,15 +102,15 @@ function Requests() {
             <StyledTableRow key={req.id} className="  hover:bg-gray-300 ">
              <td>
               <img
-                src={req.Patient.profile_picture}
+                src={req?.Patient?.profile_picture}
                 alt="Profile"
                 style={{ width: 50, height: 50, borderRadius: "50%" }}
               /></td>
               <StyledTableCell className="text-lg">
-                {req.Patient.FullName}
+                {req?.Patient?.FullName}
               </StyledTableCell>
               <StyledTableCell className="text-lg">
-                {req.Patient.phone_number}
+                {req?.Patient?.phone_number}
               </StyledTableCell>
               <StyledTableCell className="text-lg">
                 {req.message}
