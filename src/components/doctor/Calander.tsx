@@ -12,15 +12,17 @@ interface Doctor {
   profile_picture: string;
   speciality: string;
   MedicalExp: {
-      bio: string;
-      doctorId: number | null;
-      id: number | null;
-      id_card: string;
-      medical_id: string;
+
+    bio: string;
+    doctorId: number | null;
+    id: number | null;
+    id_card: string;
+    medical_id: string;
   };
 }
 interface AppointmentDataUpdate extends Partial<Appointment> {
-  appointmentTime?: string; 
+  appointmentTime?: string;
+
 }
 interface Appointment {
   id: number;
@@ -31,140 +33,158 @@ interface Appointment {
   doctorId: number;
 }
 const Calender = () => {
+  const [doctor, setDoctor] = useState<Doctor>();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showModal, setShowModal] = useState(false); 
-  const [appointmentData, setAppointmentData] = useState <AppointmentDataUpdate>({
-    doctorId: 0,
-    PatientName: '',
-    dateTime: '',
-    description: '',
-   
-  });;
+  const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  let token = localStorage.getItem('token')
+  const [appointmentData, setAppointmentData] = useState<AppointmentDataUpdate>(
+    {
+      doctorId: 0,
+      PatientName: "",
+      dateTime: "",
+      description: "",
+    }
+  );
+  let token = localStorage.getItem("token");
   const getAppointments = async () => {
     try {
+      let result =await getDoctor();
+      
       const { data } = await axios.get(
-        `http://localhost:3000/api/appointment/getAppointements/${doctor?.id}`,{headers:{"token":token}}
+
+        `http://localhost:3000/api/appointment/getAppointements/${doctor?.id}`,
+        { headers: { token: token } }
+
       );
       setAppointments(data);
-      
+      console.log(appointments);
     } catch (error) {
       console.error("Error fetching appointments:", error);
-     
+
     }
   };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    setAppointmentData({ ...appointmentData, dateTime: date.toISOString() }); 
+    setAppointmentData({ ...appointmentData, dateTime: date.toISOString() });
   };
   const [doctor, setDoctor] = useState<Doctor>();
 
   const handleAppointmentFormSubmit = async (e) => {
     e.preventDefault();
     try {
-  
       setAppointmentData({
         ...appointmentData,
         PatientName: "",
         description: "",
       });
-      
     } catch (error) {
       console.error("Error creating appointment:", error);
     }
   };
   const filteredAppointments = appointments.filter(
     (appointment) =>
-      new Date(appointment.dateTime).getFullYear() === selectedDate.getFullYear() &&
+      new Date(appointment.dateTime).getFullYear() ===
+        selectedDate.getFullYear() &&
       new Date(appointment.dateTime).getMonth() === selectedDate.getMonth() &&
       new Date(appointment.dateTime).getDate() === selectedDate.getDate()
   );
   const getDoctor = async () => {
-    let token = localStorage.getItem('token');
 
+    let token = localStorage.getItem("token");
     try {
-        const response = await axios.get('http://localhost:3000/api/doctors/getDoctor', { headers: { "token": token } });
-        setDoctor(response.data)
+      const response = await axios.get(
+        "http://localhost:3000/api/doctors/getDoctor",
+        { headers: { token: token } }
+      );
+      setDoctor(response.data);
+      console.log(doctor);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-};
+  };
+
   useEffect(() => {
     getDoctor()
     
     getAppointments();
   }, [showModal]);
-  const  handleSubmit= async (e)=> {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let data={...appointmentData,doctorId:doctor.id,};
-  console.log(data);
-  
+
+    let data = { ...appointmentData, doctorId: doctor?.id };
+    console.log(data);
     try {
-      const response = await axios.post(`http://localhost:3000/api/appointment/addAppointement/${doctor.id}`,data,{headers:{"token":token}})
-      console.log('New appointment created:', response.data);  
+      const response = await axios.post(
+        `http://localhost:3000/api/appointment/addAppointement/${doctor?.id}`,
+        data,
+        { headers: { token: token } }
+      );
+
+
       getAppointments();
       setShowModal(false);
-    } 
-    catch (error) {
-      console.error('Error creating appointment:', error);
+    } catch (error) {
+      console.error("Error creating appointment:", error);
     }
-  }
+  };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setAppointmentData(prevState => ({
+    setAppointmentData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 ml-7">
-      <h2 className="text-2xl font-bold mb-4 text-blue-800">
-        Appointment Calendar
-      </h2>
-      <div className="calendar-wrapper ">
-        <Calendar
-          onChange={handleDateChange}
-          value={selectedDate}
-          
-        />
 
-        <div className="appointments-wrapper">
-          <h3 className="text-lg font-semibold mb-2 text-blue-700">
-            Appointments for {selectedDate.toDateString()}
-          </h3>
-          <button
-            className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
-            onClick={() => setShowModal(true)}
-          >
-            Add Appointment
-          </button>
-          {filteredAppointments.length > 0 ? (
-            <ul>
-              {filteredAppointments.map((appointment, index) => (
-                <li
-                  key={index}
-                  className="py-2 text-blue-900 border-l-4 border-blue-500 pl-2 mb-2 rounded-md"
-                >
-                  <h1 className="font-bold text-red-600">
-                    {new Date(appointment.dateTime).toLocaleTimeString()}
-                  </h1>{" "}
-                  -{" "}
-                  <span className="text-blue-700">
-                    {appointment.PatientName}
-                  </span>{" "}
-                  - {appointment.description}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-red-600">No appointments for this date.</p>
-          )}
+    <div className="container mx-auto px-4 py-8 ml-70 flex-1">
+      <div className="container mx-auto px-4 py-8 ml-7 flex-1">
+        <div className="flex flex-row">
+          <div className="flex flex-col items-center">
+            <h2 className="text-2xl font-bold mb-4 text-blue-800">
+              Appointment Calendar
+            </h2>
+            <div className="">
+              <Calendar onChange={handleDateChange} value={selectedDate} />
+            </div>
+          </div>
+
+          <div className="appointments-wrapper ml-4">
+            <h3 className="text-lg font-semibold mb-2 text-blue-700">
+              Appointments for {selectedDate.toDateString()}
+            </h3>
+            <button
+              className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
+              onClick={() => setShowModal(true)}
+            >
+              Add Appointment
+            </button>
+            {filteredAppointments.length > 0 ? (
+              <ul>
+                {filteredAppointments.map((appointment, index) => (
+                  <li
+                    key={index}
+                    className="py-2 text-blue-900 border-l-4 border-blue-500 pl-2 mb-2 rounded-md"
+                  >
+                    <h1 className="font-bold text-red-600">
+                      {new Date(appointment.dateTime).toLocaleTimeString()}
+                    </h1>{" "}
+                    -{" "}
+                    <span className="text-blue-700">
+                      {appointment.PatientName}
+                    </span>{" "}
+                    - {appointment.description}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-red-600">No appointments for this date.</p>
+            )}
+          </div>
+
         </div>
       </div>
-      {/* Modal for adding appointment */}
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -194,7 +214,7 @@ const Calender = () => {
                       type="text"
                       id="patientName"
                       name="patientName"
-                      value={appointmentData.PatientName} 
+                      value={appointmentData.PatientName}
                       onChange={(e) =>
                         setAppointmentData({
                           ...appointmentData,
@@ -238,17 +258,20 @@ const Calender = () => {
                       id="appointmentTime"
                       name="appointmentTime"
                       defaultValue={appointmentData.dateTime}
-                      onChange={(e)=>{ handleInputChange(e)
-                        const selectedTime = e.target.value; 
-                        const currentTime = selectedDate.toISOString().slice(0, 10); 
+
+                      onChange={(e) => {
+                        handleInputChange(e);
+                        const selectedTime = e.target.value;
+                        const currentTime = selectedDate
+                          .toISOString()
+                          .slice(0, 10);
+
                         const dateTimeString = `${currentTime}T${selectedTime}:00.000Z`;
-                     
-                        
-                        
+
                         setAppointmentData({
                           ...appointmentData,
-                          dateTime:dateTimeString,
-                        })
+                          dateTime: dateTimeString,
+                        });
                       }}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       required
