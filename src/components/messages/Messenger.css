@@ -1,5 +1,5 @@
 .messager {
-  height: calc(100vh-70px);
+  height: calc(100%);
   display: flex;
 }
 .chatMenu {
@@ -59,6 +59,14 @@ background-color: aliceblue;
 
 }
 .chatBoxRapper{
+
   display: flex;
   flex-direction: column;
+}
+.nochat{
+  position: relative;
+  top:10%;
+  color: #808080;
+  text-align: center;
+  font-size: 50px;
 }
