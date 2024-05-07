@@ -46,18 +46,24 @@ const Calender = () => {
   let token = localStorage.getItem("token");
   const getAppointments = async () => {
     try {
-      let result =await getDoctor();
-      
+      const response = await axios.get(
+        "http://localhost:3000/api/doctors/getDoctor",
+        { headers: { token: token } }
+      );
+     
       const { data } = await axios.get(
-        `http://localhost:3000/api/appointment/getAppointements/${doctor?.id}`,
+        `http://localhost:3000/api/appointment/getAppointements/${response.data?.id}`,
         { headers: { token: token } }
       );
       setAppointments(data);
-      console.log(appointments);
+      console.log(data);
+      
+      
     } catch (error) {
       console.error("Error fetching appointments:", error);
     }
   };
+console.log(appointments);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -83,21 +89,11 @@ const Calender = () => {
       new Date(appointment.dateTime).getMonth() === selectedDate.getMonth() &&
       new Date(appointment.dateTime).getDate() === selectedDate.getDate()
   );
-  const getDoctor = async () => {
-    let token = localStorage.getItem("token");
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/api/doctors/getDoctor",
-        { headers: { token: token } }
-      );
-      setDoctor(response.data);
-      console.log(doctor);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  
   useEffect(() => {
-    getAppointments();
+   getAppointments();
+   
   }, [showModal]);
   const handleSubmit = async (e) => {
     e.preventDefault();
