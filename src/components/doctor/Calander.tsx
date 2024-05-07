@@ -12,6 +12,7 @@ interface Doctor {
   profile_picture: string;
   speciality: string;
   MedicalExp: {
+
     bio: string;
     doctorId: number | null;
     id: number | null;
@@ -21,6 +22,7 @@ interface Doctor {
 }
 interface AppointmentDataUpdate extends Partial<Appointment> {
   appointmentTime?: string;
+
 }
 interface Appointment {
   id: number;
@@ -54,6 +56,7 @@ const Calender = () => {
       const { data } = await axios.get(
         `http://localhost:3000/api/appointment/getAppointements/${response.data?.id}`,
         { headers: { token: token } }
+
       );
       setAppointments(data);
       console.log(data);
@@ -61,6 +64,7 @@ const Calender = () => {
       
     } catch (error) {
       console.error("Error fetching appointments:", error);
+
     }
   };
 console.log(appointments);
@@ -69,6 +73,7 @@ console.log(appointments);
     setSelectedDate(date);
     setAppointmentData({ ...appointmentData, dateTime: date.toISOString() });
   };
+
 
   const handleAppointmentFormSubmit = async (e) => {
     e.preventDefault();
@@ -97,6 +102,7 @@ console.log(appointments);
   }, [showModal]);
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     let data = { ...appointmentData, doctorId: doctor?.id };
     console.log(data);
     try {
@@ -105,6 +111,7 @@ console.log(appointments);
         data,
         { headers: { token: token } }
       );
+
 
       getAppointments();
       setShowModal(false);
@@ -121,6 +128,7 @@ console.log(appointments);
   };
 
   return (
+
     <div className="container mx-auto px-4 py-8 ml-70 flex-1">
       <div className="container mx-auto px-4 py-8 ml-7 flex-1">
         <div className="flex flex-row">
@@ -165,9 +173,9 @@ console.log(appointments);
               <p className="text-red-600">No appointments for this date.</p>
             )}
           </div>
+
         </div>
       </div>
-      {/* Modal for adding appointment */}
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -241,12 +249,14 @@ console.log(appointments);
                       id="appointmentTime"
                       name="appointmentTime"
                       defaultValue={appointmentData.dateTime}
+
                       onChange={(e) => {
                         handleInputChange(e);
                         const selectedTime = e.target.value;
                         const currentTime = selectedDate
                           .toISOString()
                           .slice(0, 10);
+
                         const dateTimeString = `${currentTime}T${selectedTime}:00.000Z`;
 
                         setAppointmentData({
