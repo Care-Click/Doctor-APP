@@ -67,7 +67,9 @@ function Requests() {
       const { data } = await axios.get(
         `http://localhost:3000/api/requests/accepteRequest/${reqId} `,{headers:{"token":token}}
       );
+      console.log(data);
       setTest(!test);
+      
     } catch (error) {
       console.log(error);
     }

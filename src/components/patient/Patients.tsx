@@ -55,7 +55,7 @@ const Patients = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token=localStorage.getItem("token")
-      console.log(token);
+      
       
       try {
         const response = await axios.get<Patient[]>(`http://localhost:3000/api/doctors/patients`,{headers:{"token":token}});
