@@ -50,7 +50,7 @@ const SignUp = () => {
 
   // Handle submission for the left form
   const handleNext = data => {
-    console.log(data); 
+
     if (data.email && data.password && data.confirmPassword === data.password) {
     setNext(true); }
   };
@@ -200,7 +200,7 @@ const SignUp = () => {
       <input
         type="file"
         accept="image/*"
-        onChange={handleFileInputChange}
+        onChange={handleImageChange}
         ref={fileInputRef}
         style={{ display: 'none' }}
       />
