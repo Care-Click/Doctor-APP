@@ -135,6 +135,13 @@ const Login = ({ setToken }) => {
             <Link to="/join-us" className="text-[#1DBED3] hover:text-blue-600">
               SIGN UP
             </Link>
+
+            <Link
+        to="/payment"
+        className="bg-[#1DBED3] text-white py-2 px-4 tablet:px-3 rounded hover:bg-blue-600 flex items-center"
+      >
+       Subscribe <span className="ml-2">&rarr;</span>
+      </Link>
           </div>
         </form>
       </div>
