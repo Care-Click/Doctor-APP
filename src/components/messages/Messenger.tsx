@@ -1,35 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Messenger.css";
 import Conversation from "./Conversation";
 import Message from "./Message.tsx";
 import axios from "axios";
+import { io } from "socket.io-client";
 
- 
+
 interface message {
+  id:number;
   sender: string;
- 
 }
+
 function messenger() {
   const [conversations, setConversations] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [currentChat, setcurrentChat] = useState({id:0});
-  const [message, setMessage] = useState("");
+  const [currentChat, setcurrentChat] = useState({ id: 0 });
+  const [newMessage, setNewMessage] = useState("");
+  const socket = io("ws://localhost:3000");
+  const scrollRef = useRef();
+  useEffect(() => {
+    if (currentChat.id!==0) {
+      socket.emit("joinConversation",currentChat.id);
+      
+    }
+   }, [currentChat]);
+
 
   useEffect(() => {
+    socket.on("newMessage", (data) => {
+      
+      setMessages(...messages,data)
+    });
+  }, []);
+
+ 
+  useEffect(() => {
     getDoctorConversations();
-    const getmessages=async()=>{
+    const getmessages = async () => {
       try {
-        const {data}= await axios.get(`http://localhost:3000/api/conversations/${currentChat?.id}/messages`)
-setMessages(data)    
+        const { data } = await axios.get(
+          `http://localhost:3000/api/conversations/${currentChat?.id}/messages`
+        );
+        setMessages(data);
       } catch (error) {
         console.log(error);
-        
       }
-    }
-    getmessages()
+    };
+    getmessages();
   }, [currentChat]);
 
-  
   const getDoctorConversations = async () => {
     let token = localStorage.getItem("token");
     try {
@@ -41,13 +60,12 @@ setMessages(data)
         `http://localhost:3000/api/conversations/${response.data?.id}/Allconversations`
       );
       setConversations(data);
-      console.log(data);
-      
     } catch (error) {
       console.error("Failed to fetch messages:", error);
     }
   };
-  const fetchmesseges = async (convId) => {
+
+  const fetchmessages = async (convId) => {
     try {
       const { data } = await axios.get(
         `http://localhost:3000/api/conversations/${convId}/messages`
@@ -59,28 +77,31 @@ setMessages(data)
     }
   };
 
-const handleSubmit= async (e)=>{
-  e.preventDefault()
- try {const newMessage={
-    content:message,
-    conversationId:currentChat.id,
-    sender:"Doctor",
-  }
-  const { data } = await axios.post(
-    `http://localhost:3000/api/messages`,newMessage
-  );
-  setMessage("")
-  fetchmesseges(currentChat.id)
- }
-  catch(error){
-    console.log(error);
-    
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (newMessage.trim() === "") {
+      return;
+    }
+    try {
+   
   
-
-
-}
-console.log(currentChat);
+      const messageSocket = {
+        conversationId:currentChat.id,
+        sender: "Doctor",
+        createdAt:  new Date(Date.now()),
+        content: newMessage,
+      };
+      socket.emit("sendMessage",messageSocket);
+      await axios.post("http://localhost:3000/api/messages", messageSocket);
+      setNewMessage("");
+      fetchmessages(currentChat.id); 
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="messager">
@@ -91,32 +112,51 @@ console.log(currentChat);
             type="text"
             placeholder="search for a patient"
           />
-          {conversations.map((conversation) => {
+          {conversations.map((conversation, key) => {
             return (
-              <div onClick={()=>{setcurrentChat(conversation)}}>
-              <Conversation
-                conversation={conversation}
-               /></div>
+              <div
+                key={key}
+                onClick={() => {
+                  
+                  
+                  setcurrentChat(conversation);
+                }}
+              >
+                <Conversation conversation={conversation} />
+              </div>
             );
           })}
         </div>
       </div>
       <div className="chatBox">
         <div className="chatBoxWrapper">
-          {messages.length!==0?
-          <div className="chatBoxTop">
-            {messages.map((message:message) => {
-              return <Message message={message} own={message.sender === "Doctor"} />;
-            })}
-          </div>: <span className="nochat">Open a conversation to start a chat</span> }
+          {messages.length !== 0 ? (
+            <div className="chatBoxTop">
+              {messages.map((message: message) => {
+                return (
+                  <div ref={scrollRef} key={message.id}>
+                    <Message
+                      message={message}
+                      own={message.sender === "Doctor"}
+                    />
+                    
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <span className="nochat">Open a conversation to start a chat</span>
+          )}
           <div className="chatBoxBottom">
             <textarea
               className="chatIntput"
               placeholder="write somthing"
-             onChange={(e)=>setMessage(e.target.value)}
-             value={message}
+              onChange={(e) => setNewMessage(e.target.value)}
+              value={newMessage}
             ></textarea>
-            <button className="buttonSend" onClick={handleSubmit} >send</button>
+            <button className="buttonSend" onClick={handleSubmit}>
+              send
+            </button>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ function message({own,message}) {
       
         <img
           className="messageImg"
-          src={message.conversation.doctor.profile_picture}
+          src={message.conversation.patient.profile_picture}
           alt=""
         />
         <p  className="messageText">{message.content}</p>
