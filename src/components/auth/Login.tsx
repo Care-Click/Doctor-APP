@@ -17,6 +17,7 @@ interface LoginFormValues {
 const Login = ({ setToken }) => {
 
   const [showModal, setShowModal] = useState(false);
+  const [subscribe,setSubscribe] =useState(false)
 
 
   // React Hook Form setup
@@ -49,6 +50,14 @@ const Login = ({ setToken }) => {
         
         console.log(showModal)
           }
+      
+          if(error.response.status === 405){
+            setSubscribe(!subscribe)
+            
+            console.log(subscribe)
+              }
+
+
       if (error.response) {
         setError("serverError" as any, {
           type: "manual",
@@ -148,12 +157,6 @@ const Login = ({ setToken }) => {
               SIGN UP
             </Link>
 
-            <Link
-        to="/payment"
-        className="bg-[#1DBED3] text-white py-2 px-4 tablet:px-3 rounded hover:bg-blue-600 flex items-center"
-      >
-       Subscribe <span className="ml-2">&rarr;</span>
-      </Link>
           </div>
         </form>
       </div>
@@ -202,6 +205,47 @@ const Login = ({ setToken }) => {
         </>
       ) : null}
     </>
+
+    {subscribe && (
+  <>
+    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div className="relative w-auto my-6 mx-auto max-w-sm">
+        {/* Content */}
+        <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          {/* Header */}
+          <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+            <h3 className="text-3xl font-semibold">
+              Subscription Required
+            </h3>
+          </div>
+          {/* Body */}
+          <div className="relative p-6 flex-auto">
+            <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+              You need to subscribe to access this service. Please proceed to payment.
+            </p>
+          </div>
+          {/* Footer */}
+          <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+            <button
+              className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              onClick={() => setSubscribe(false)}
+            >
+              Close
+            </button>
+            <Link
+              to="/payment"
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+            >
+              Subscribe Now
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+  </>
+)}
     </div>
   );
 };
