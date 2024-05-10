@@ -5,49 +5,65 @@ import Message from "./Message.tsx";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-
 interface message {
-  id:number;
+  id: number;
   sender: string;
 }
 
 function messenger() {
   const [conversations, setConversations] = useState([]);
+  const [profileDoc, setprofileDoc] = useState("");
+  const [profilePat, setprofilePat] = useState("");
   const [messages, setMessages] = useState([]);
   const [currentChat, setcurrentChat] = useState({ id: 0 });
   const [newMessage, setNewMessage] = useState("");
   const socket = io("ws://localhost:3000");
   const scrollRef = useRef();
   useEffect(() => {
-    if (currentChat.id!==0) {
-      socket.emit("joinConversation",currentChat.id);
-      
-    }
-   }, [currentChat]);
-
-
-  useEffect(() => {
-    socket.on("newMessage", (data) => {
-      
-      setMessages(...messages,data)
-    });
-  }, []);
-
- 
-  useEffect(() => {
     getDoctorConversations();
-    const getmessages = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:3000/api/conversations/${currentChat?.id}/messages`
-        );
-        setMessages(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getmessages();
+  
+      socket.on("newMessage", (data) => {
+        const prev=[...messages]  
+        prev.push(data)
+        
+        setMessages(prev);
+      });
+      getmessages()
+      console.log("😂😂",messages);
+
   }, [currentChat]);
+
+
+  // useEffect(() => {
+  //   socket.on("newMessage", (data) => {
+  //     console.log(data);
+
+  //     setMessages(...messages,data)
+  //   });
+  // }, []);
+  const getmessages = async () => {
+    try {
+      if (currentChat.id!==0) {
+    
+      const { data } = await axios.get(
+        `http://localhost:3000/api/conversations/${currentChat?.id}/messages`
+      );
+
+      setprofileDoc(data[0].conversation.doctor.profile_picture)
+      setprofilePat(data[0].conversation.patient.profile_picture)
+      
+      setMessages(data);
+      socket.emit("joinConversation", currentChat.id  );
+    }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // useEffect(() => {
+    
+ 
+    
+  // }, [currentChat]);
 
   const getDoctorConversations = async () => {
     let token = localStorage.getItem("token");
@@ -60,6 +76,7 @@ function messenger() {
         `http://localhost:3000/api/conversations/${response.data?.id}/Allconversations`
       );
       setConversations(data);
+      getmessages();
     } catch (error) {
       console.error("Failed to fetch messages:", error);
     }
@@ -70,7 +87,6 @@ function messenger() {
       const { data } = await axios.get(
         `http://localhost:3000/api/conversations/${convId}/messages`
       );
-
       setMessages(data);
     } catch (error) {
       console.error("Failed to fetch messages:", error);
@@ -83,18 +99,16 @@ function messenger() {
       return;
     }
     try {
-   
-  
       const messageSocket = {
-        conversationId:currentChat.id,
+        conversationId: currentChat.id,
         sender: "Doctor",
-        createdAt:  new Date(Date.now()),
+        createdAt: new Date(Date.now()),
         content: newMessage,
       };
-      socket.emit("sendMessage",messageSocket);
+      socket.emit("sendMessage", messageSocket);
+      setMessages([...messages,messageSocket])
       await axios.post("http://localhost:3000/api/messages", messageSocket);
       setNewMessage("");
-      fetchmessages(currentChat.id); 
     } catch (error) {
       console.log(error);
     }
@@ -117,8 +131,6 @@ function messenger() {
               <div
                 key={key}
                 onClick={() => {
-                  
-                  
                   setcurrentChat(conversation);
                 }}
               >
@@ -135,11 +147,12 @@ function messenger() {
               {messages.map((message: message) => {
                 return (
                   <div ref={scrollRef} key={message.id}>
-                    <Message
+                    <Message 
+                    profileDoc={profileDoc}
+                    profilePat={profilePat}
                       message={message}
                       own={message.sender === "Doctor"}
                     />
-                    
                   </div>
                 );
               })}
