@@ -45,24 +45,30 @@ const MedicalExp = () => {
     };
 
     return (
-        <div className="grid grid-cols-[1fr_2fr]">
+        <div className="grid grid-cols-[1fr_2fr] min-h-screen">
             <div
-                className="opacity-90 shadow text-white flex items-center justify-center"
-                style={{
-                    backgroundImage: `url('/src/assets/images/Capture1.PNG')`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    minHeight: '100vh'
-                }}
-            >
-                <div className="text-center  mb-20">
-                    <h1 className="text-6xl font-bold text-[#1DBED3]">HOPE FOR HUMANITY</h1>
-                    <p className="text-2xl mt-4 text-[#1DBED3]">Please provide you medical experience</p>
+        className="flex items-center justify-center bg-cover bg-no-repeat text-white"
+        style={{
+          backgroundImage: `url('/src/assets/images/Capture1.png')`,
+          minHeight: "100vh",
+          maxWidth: "500px",
+          width: "100%",
+        }}
+      >
+                <div
+          className="flex flex-col justify-center items-center h-full w-full bg-opacity-10 p-4"
+          style={{
+            backgroundImage:
+              "linear-gradient(0.01deg, #1DBED3 -1%, rgba(10, 107, 158, 0.801566) 59.1%, rgba(52, 167, 81, 0) 301.87%)",
+          }}
+        >
+            <h1 className="text-5xl mt-5">Welcome  to CareClick</h1>
+                    <h2 className="text-4xl mt-9 ">Please provide you medical experience </h2>
                 </div>
             </div>
-            <div className="bg-blue-100 p-8 min-h-screen flex justify-center items-center overflow-x-hidden">
+            <div className="flex justify-center items-center text-gray-700 bg-[#f6fff8]">
                 <form
-                    className="w-full max-w-lg p-6  bg-blue-200 rounded-md shadow-lg overflow-hidden"
+                    className="w-full max-w-lg p-6 bg-[#E8F3F1] rounded-md shadow-lg overflow-hidden"
                     onSubmit={handleSubmit(handleMedExp)}
                 >
                     <div className="mb-4">
