@@ -111,7 +111,7 @@ const SignUp = () => {
   };
   
   return (
-       <div className="grid grid-cols-[1fr_2fr] min-h-screen bg-[#f6fff8] ">
+       <div className="grid grid-cols-[1fr_2fr] min-h-screen  ">
       <div
   className="flex items-center justify-center bg-cover bg-no-repeat text-white "
   style={{
@@ -123,14 +123,20 @@ const SignUp = () => {
     
   }}
 >
-  <div className="flex flex-col justify-center items-center h-full w-full bg-[#ade8f4] bg-opacity-40 p-4">
+<div
+          className="flex flex-col justify-center items-center h-full w-full bg-opacity-10 p-4"
+          style={{
+            backgroundImage:
+              "linear-gradient(0.01deg, #1DBED3 -1%, rgba(10, 107, 158, 0.801566) 59.1%, rgba(52, 167, 81, 0) 301.87%)",
+          }}
+        >
     <h1 className="text-6xl font-bold">HOPE FOR HUMANITY</h1>
     <h1 className="text-4xl mt-4">Welcome  to CareClick</h1>
   </div>
 </div>
       {/* Left Half */}
-      {!next && <div className=" p-20 overflow-x-hidden">
-        <form className="max-w-2xl p-10 bg-[#ccecd6] rounded-md shadow-lg mt-14" onSubmit={handleSubmit(handleNext)}>
+      {!next && <div className="flex justify-center items-center text-gray-700">
+        <form className="w-[550px] mx-auto p-[30px] rounded-md shadow-2xl items-center bg-[#E8F3F1]" onSubmit={handleSubmit(handleNext)}>
           {/* Email */}
           <div className="p-3">
             <label className="block text-sm font-bold mb-1">Email</label>
@@ -142,17 +148,17 @@ const SignUp = () => {
                   }
                 }
               })}
-              className="appearance-none block w-full bg-gray-100 text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
+              className="appearance-none block w-full text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
               type="email"
               placeholder="ex: jon.smith@email.com"
             />
             {errors.email && (
-              <div className="text-red-500 text-sm">{errors.email.message as string}</div>
+              <div className="text-red-500 text-m">{errors.email.message as string}</div>
             )}
           </div>
           {/* Password */}
           <div className="p-3">
-            <label className="block  text-sm font-bold mb-1">Password</label>
+            <label className="block text-sm font-bold mb-1">Password</label>
             <input
               {...register("password", {
                 required: 'Password is required',
@@ -161,12 +167,12 @@ const SignUp = () => {
                   message: 'Password must have at least 8 characters',
                 }
               })}
-              className="appearance-none block w-full bg-gray-100 border border-gray-500 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 "
+              className="appearance-none block w-full  border border-gray-500 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 "
               type="password"
               placeholder="••••••••"
             />
             {errors.password && (
-              <div className="text-red-500 text-sm">{errors.password.message as string}</div>
+              <div className="text-red-500 text-m">{errors.password.message as string}</div>
             )}
           </div>
           {/* Confirm Password */}
@@ -174,12 +180,12 @@ const SignUp = () => {
             <label className="block  text-sm font-bold mb-1">Confirm Password</label>
             <input
               {...register("confirmPassword", { required: 'ConfirmPassword is required' })}
-              className="appearance-none block w-full bg-gray-100 text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
+              className="appearance-none block w-full  text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
               type="password"
               placeholder="••••••••"
             />
             {errors.confirmPassword && (
-              <div className="text-red-500 text-sm">{errors.confirmPassword.message as string}</div>
+              <div className="text-red-500 text-m">{errors.confirmPassword.message as string}</div>
             )}
           </div>
 
@@ -189,11 +195,11 @@ const SignUp = () => {
         </form>
       </div>}
       {/* Right Half */}
-      {next && <div className="p-20 overflow-x-hidden  ml-10">
-        <form className="max-w-2xl p-10 bg-[#ccecd6] rounded-md shadow-lg mt-6" onSubmit={handleSubmit(handleSignUp)}>
+      {next && <div className="flex justify-center items-center text-gray-700 p-20">
+        <form className="w-[650px] mx-auto p-[30px] rounded-md shadow-2xl items-center bg-[#E8F3F1] " onSubmit={handleSubmit(handleSignUp)}>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Image input */}
-            
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>   
       <input
         type="file"
         accept="image/*"
@@ -205,21 +211,22 @@ const SignUp = () => {
         src={imageUrl}
         alt="Click to Upload"
         onClick={handleImageClick}
-        style={{ cursor: 'pointer' }}
-        className="border border-gray-300 rounded-md p-2"
+        style={{ cursor: 'pointer' , height: '25vh' }}
+        className="border border-gray-300 rounded-md p-2 "
       />
-   
+  </div>
+  
             {/* Full Name */}
             <div className="col-span-1">
               <label className="block text-gray-700 text-sm font-bold mb-1">Full Name</label>
               <input
                 {...register("FullName", { required: 'FullName is required' })}
-                className="appearance-none block w-full bg-gray-100 text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
+                className="appearance-none block w-full  text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
                 type="text"
                 placeholder="ex: Smith"
               />
               {errors.FullName && (
-                <div className="text-red-500 text-sm">{errors.FullName.message as string}</div>
+                <div className="text-red-500 text-m">{errors.FullName.message as string}</div>
               )}
             </div>
             {/* Date of Birth */}
@@ -227,11 +234,11 @@ const SignUp = () => {
               <label className="block text-gray-700 text-sm font-bold mb-1">Date of Birth</label>
               <input
                 {...register("date_of_birth", { required: 'DateOfBirth is required' })}
-                className="appearance-none block w-full bg-gray-100 text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
+                className="appearance-none block w-full text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
                 type="date"
               />
               {errors.date_of_birth && (
-                <div className="text-red-500 text-sm">{errors.date_of_birth.message as string}</div>
+                <div className="text-red-500 text-m">{errors.date_of_birth.message as string}</div>
               )}
             </div>
             {/* Location */}
@@ -248,7 +255,7 @@ const SignUp = () => {
               </label>
               <select
                 {...register('speciality')}
-                className="appearance-none block w-full bg-gray-100 text-gray-700   rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border border-gray-500"
+                className="appearance-none block w-full text-gray-700 rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border border-gray-500"
               >
                 <option >Select Speciality</option>
                 <option value="Generalist">Generalist</option>
@@ -266,15 +273,15 @@ const SignUp = () => {
             </div>
             {/* Phone Number */}
             <div className="col-span-1">
-              <label className="block text-gray-700 text-sm font-bold mb-1">Phone Number</label>
+              <label className="block text-sm font-bold mb-1">Phone Number</label>
               <PhoneInput
                 {...register("phone_number", { required: 'Phone Number is required' })}
                 placeholder="Your Number"
-                className="appearance-none block w-full bg-gray-100 text-gray-700  border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
+                className="appearance-none block w-full border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
                 onChange={handlePhoneNumberChange}
               />
               {errors.phone_number && (
-                <div className="text-red-500 text-sm">{errors.phone_number.message as string}</div>
+                <div className="text-red-500 text-m">{errors.phone_number.message as string}</div>
               )}
             </div>
             {/* Gender */}
@@ -282,7 +289,7 @@ const SignUp = () => {
               <label className="block text-gray-700 text-sm font-bold mb-1">Gender</label>
               <select
                 {...register("gender", { required: 'Gender is required' })}
-                className="appearance-none block w-full bg-gray-100 text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
+                className="appearance-none block w-full text-gray-700 border  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-gray-500"
               >
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
