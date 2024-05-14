@@ -109,7 +109,7 @@ const Report = () => {
     <div className="container  p-9 ">
            {/* Personal Information Section */}
            <h2 className="text-2xl font-semibold mb-4">Personal Informations:</h2>
-        <div className="bg-[#A3FFD6] bg-opacity-60 rounded-lg shadow-lg p-4 max-w-2xl  mb-8">
+        <div className="bg-[#e6eae8]  shadow-2xl bg-opacity-60 rounded-lg p-4 max-w-2xl  mb-8">
       <div className="flex items-center gap-6  ">
         
           <img src={patient.profile_picture} alt="Profile" className="w-30 h-40 rounded-md " />
@@ -128,7 +128,7 @@ const Report = () => {
     <div className="flex justify-between  gap-8 w-full ">
       {/* Medical Information Section */}
       
-      <div className="bg-[#A3FFD6] bg-opacity-60 rounded-lg shadow-lg p-6 flex-row space-x-10"style={{ width: '600px' }}>
+      <div className="bg-[#e6eae8]  shadow-2xl bg-opacity-60 rounded-lg p-6 flex-row space-x-10"style={{ width: '600px' }}>
     
        
         <div className="  flex  space-y-10 ">
@@ -188,7 +188,7 @@ const Report = () => {
 
          {/* Add Information Section */}
          
-         { info && <div className="bg-[#A3FFD6] bg-opacity-60 rounded-lg shadow-lg p-6 flex-grow " style={{ width: '600px' }}>
+         { info && <div className="bg-[#e6eae8]  shadow-2xl bg-opacity-60 rounded-lg  p-6 flex-grow " style={{ width: '600px' }}>
         <h2 className="text-lg font-bold mb-4">Add Information:</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
             {/* Dropdown select */}
