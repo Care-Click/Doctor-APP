@@ -17,19 +17,17 @@ function messenger() {
   const [messages, setMessages] = useState([]);
   const [currentChat, setcurrentChat] = useState({ id: 0 });
   const [newMessage, setNewMessage] = useState("");
-  const socket = io("ws://localhost:3000");
+  // const socket = io("ws://localhost:8081");
   const scrollRef = useRef();
   useEffect(() => {
     getDoctorConversations();
   
-      socket.on("newMessage", (data) => {
-        const prev=[...messages]  
-        prev.push(data)
-        
-        setMessages(prev);
-      });
+      // socket.on("newMessage", (data) => {
+      //   const prev=[...messages]  
+      //   prev.push(data)
+      //   setMessages(prev);
+      // });
       getmessages()
-      console.log("😂😂",messages);
 
   }, [currentChat]);
 
@@ -120,9 +118,9 @@ function messenger() {
   return (
     <div className="messager">
       <div className="chatMenu">
-        <div className="chatMenuRapper">
+        <div className="chatMenuRapper bg-gray-100 h-full">
           <input
-            className="chatMenuInput"
+            className="chatMenuInput "
             type="text"
             placeholder="search for a patient"
           />
@@ -146,7 +144,7 @@ function messenger() {
             <div className="chatBoxTop">
               {messages.map((message: message) => {
                 return (
-                  <div ref={scrollRef} key={message.id}>
+                  <div  key={message.id}>
                     <Message 
                     profileDoc={profileDoc}
                     profilePat={profilePat}

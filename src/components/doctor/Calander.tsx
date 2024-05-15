@@ -129,9 +129,9 @@ console.log(appointments);
 
   return (
 
-    <div className="container mx-auto px-4 py-8 ml-70 flex-1">
+    <div className="container  px-4 py-8 ml-70 flex-1">
       <div className="container mx-auto px-4 py-8 ml-7 flex-1">
-        <div className="flex flex-row">
+        <div className="flex flex-col items-center">
           <div className="flex flex-col items-center">
             <h2 className="text-2xl font-bold mb-4 text-blue-800">
               Appointment Calendar
@@ -146,7 +146,7 @@ console.log(appointments);
               Appointments for {selectedDate.toDateString()}
             </h3>
             <button
-              className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
+              className="bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded mb-4"
               onClick={() => setShowModal(true)}
             >
               Add Appointment
