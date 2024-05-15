@@ -27,11 +27,11 @@ interface Medinfo {
 }
 
 const Report = () => {
+  const { register, handleSubmit } = useForm(); 
   const loca = useLocation();
   const { patientId } = loca.state;
   const [info,setInfo] =useState (false)
 
-  const { register, handleSubmit, setValue } = useForm(); // Initialize useForm
 
   const [patient, setPatient] = useState<Patient>({
     id: null,
@@ -62,8 +62,10 @@ const Report = () => {
       const { data } = await axios.get(
         `http://localhost:3000/api/doctors/patient/${patientId}`
       );
-      setPatient(data);
-      setLocation(JSON.parse(data.location))
+      setLocation(JSON.parse(data.location).place)
+  
+      setPatient(data); 
+      
       settest(false);
     } catch (error) {
       console.log(error);

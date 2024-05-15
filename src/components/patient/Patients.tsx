@@ -80,8 +80,8 @@ const Patients = () => {
         </TableHead>
         <TableBody>
           {patients.map((patient) => (
-            <StyledTableRow key={patient.id} className="border-blue-700 hover:bg-blue-300 cursor-pointer">
-              <StyledTableCell component="th" scope="row" >
+            <StyledTableRow key={patient.id} className="border-blue-700 hover:bg-blue-300 cursor-pointer" onClick={()=>navigate("/report", { state: { patientId: patient.id } })}>
+              <StyledTableCell component="th" scope="row"  >
                 <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
               </StyledTableCell>
               <StyledTableCell >{patient.FullName}</StyledTableCell>

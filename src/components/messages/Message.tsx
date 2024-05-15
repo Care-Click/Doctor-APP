@@ -3,7 +3,7 @@ import React from "react";
 import moment from 'moment';
 
 function message({own,message,profileDoc,profilePat}) {
-// console.log(message);
+
 
   return (
     <div className={own?"message own":"message"}>
