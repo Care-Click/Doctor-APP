@@ -15,6 +15,7 @@ const MedicalExp = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const {doctorId} = location.state;
+    console.log();
 
     const [selectedFile, setSelectedFile] = useState(null); // State to store selected file
 
@@ -48,12 +49,7 @@ const MedicalExp = () => {
         <div className="grid grid-cols-[1fr_2fr] min-h-screen">
             <div
         className="flex items-center justify-center bg-cover bg-no-repeat text-white"
-        style={{
-          backgroundImage: `url('/src/assets/images/Capture1.png')`,
-          minHeight: "100vh",
-          maxWidth: "500px",
-          width: "100%",
-        }}
+       
       >
                 <div
           className="flex flex-col justify-center items-center h-full w-full bg-opacity-10 p-4"
