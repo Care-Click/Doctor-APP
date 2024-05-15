@@ -104,7 +104,9 @@ const SignUp = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      navigate("/medicalExp", { state: { doctorId: result.data.id } });
+      console.log(result);
+      
+      navigate("/verification", { state: { doctorId: result.data.id } });
     } catch (error) {
       console.log(error);
     }

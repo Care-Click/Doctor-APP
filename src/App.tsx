@@ -15,6 +15,7 @@ import Messages from "./components/messages/Messenger.tsx";
 import Profile from "./components/doctor/Profile.tsx";
 import Learnmore from "./components/Learnmore.tsx";
 import Subscribe from "./components/Subscribe.tsx";
+import Verification from "./components/Verification.tsx";
 
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/messages" element={< Messages/>} />
         <Route path="/profile" element={< Profile/>} />
         <Route path="/payment" element = {<Subscribe/>} />
+        <Route path="/verification" element = {<Verification/>} />
 
       </Routes>
      
