@@ -1,6 +1,7 @@
 import React from 'react'
 import "./conversation.css"
 function Conversation({conversation}) {
+  
   return (
     <div className='Conversation' >
         

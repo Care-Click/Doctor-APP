@@ -52,12 +52,13 @@ const Calender = () => {
         "http://localhost:3000/api/doctors/getDoctor",
         { headers: { token: token } }
       );
-     
+      setDoctor(response.data)
       const { data } = await axios.get(
         `http://localhost:3000/api/appointment/getAppointements/${response.data?.id}`,
         { headers: { token: token } }
-
+        
       );
+      console.log(response.data);
       setAppointments(data);
       console.log(data);
       
@@ -67,7 +68,6 @@ const Calender = () => {
 
     }
   };
-console.log(appointments);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -75,18 +75,7 @@ console.log(appointments);
   };
 
 
-  const handleAppointmentFormSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setAppointmentData({
-        ...appointmentData,
-        PatientName: "",
-        description: "",
-      });
-    } catch (error) {
-      console.error("Error creating appointment:", error);
-    }
-  };
+
   const filteredAppointments = appointments.filter(
     (appointment) =>
       new Date(appointment.dateTime).getFullYear() ===
@@ -109,7 +98,7 @@ console.log(appointments);
       const response = await axios.post(
         `http://localhost:3000/api/appointment/addAppointement/${doctor?.id}`,
         data,
-        { headers: { token: token } }
+        { headers: { "token": token } }
       );
 
 
@@ -129,28 +118,24 @@ console.log(appointments);
 
   return (
 
-    <div className="container mx-auto px-4 py-8 ml-70 flex-1">
-      <div className="container mx-auto px-4 py-8 ml-7 flex-1">
-        <div className="flex flex-row">
-          <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-bold mb-4 text-blue-800">
+    <div className="container px-4 py-8 ">
+      <h2 className="text-3xl font-bold mb-4 text-blue-800"  style={{ textAlign: 'center' }}>
               Appointment Calendar
             </h2>
+            <div className="">
+        <div className="flex items-center">
+          <div className="flex  items-center shadow-2xl bg-white bg-opacity-6 rounded-lg p-4 max-w-3xl mb-8">
+            
             <div className="">
               <Calendar onChange={handleDateChange} value={selectedDate} />
             </div>
           </div>
 
-          <div className="appointments-wrapper ml-4">
+          <div className="appointments-wrapper ml-4 shadow-2xl bg-white bg-opacity-6 rounded-lg p-4 max-w-5xl mb-8 ">
             <h3 className="text-lg font-semibold mb-2 text-blue-700">
               Appointments for {selectedDate.toDateString()}
             </h3>
-            <button
-              className="bg-blue-500 hover:bg-[#A3FFD6] text-white font-bold py-2 px-4 rounded mb-4"
-              onClick={() => setShowModal(true)}
-            >
-              Add Appointment
-            </button>
+           
             {filteredAppointments.length > 0 ? (
               <ul>
                 {filteredAppointments.map((appointment, index) => (
@@ -172,8 +157,15 @@ console.log(appointments);
             ) : (
               <p className="text-red-600">No appointments for this date.</p>
             )}
-          </div>
 
+           <button
+              className="bg-blue-500 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded mb-4 mt-9"
+              onClick={() => setShowModal(true)}
+            >
+              Add Appointment
+            </button>
+          </div>
+         
         </div>
       </div>
       {showModal && (

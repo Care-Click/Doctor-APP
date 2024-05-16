@@ -8,12 +8,9 @@
 .chatBox {
   flex: 7;
 }
-.chatOnline {
-  flex: 3;
-}
+
 .chatMenuRapper,
-.chatBoxRapper,
-.chatOnlineRapper {
+.chatBoxRapper {
   padding: 10px;
 
 
@@ -22,7 +19,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
+  /* position: relative; */
 }
 .chatMenuInput{
 width: 90%;
@@ -34,12 +31,13 @@ border-bottom: 1px solid #808080 ;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 900px;
 }
 .chatIntput{
-width: 80%;
-height: 90px;
-padding: 0px;
-background-color: aliceblue;
+  width: 500px;
+  height: 90px;
+  padding: 0px;
+  background-color: aliceblue;
 }
 .buttonSend{
   margin: 20px 50px  ;
@@ -63,10 +61,10 @@ background-color: aliceblue;
   display: flex;
   flex-direction: column;
 }
-.nochat{
-  position: relative;
-  top:10%;
-  color: #808080;
-  text-align: center;
-  font-size: 50px;
-}
+  .nochat{
+    /* position: relative; */
+    top:10%;
+    color: #808080;
+    text-align: center;
+    font-size: 50px;
+  }

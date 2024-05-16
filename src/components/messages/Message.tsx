@@ -2,7 +2,8 @@ import "./message.css";
 import React from "react";
 import moment from 'moment';
 
-function message({own,message}) {
+function message({own,message,profileDoc,profilePat}) {
+
 
   return (
     <div className={own?"message own":"message"}>
@@ -11,7 +12,7 @@ function message({own,message}) {
       
         <img
           className="messageImg"
-          src={message.conversation.doctor.profile_picture}
+          src={profilePat}
           alt=""
         />
         <p  className="messageText">{message.content}</p>
@@ -20,7 +21,7 @@ function message({own,message}) {
       <p  className="messageText">{message.content}</p>
       <img
         className="messageImg"
-        src={message.conversation.doctor.profile_picture}
+        src={profileDoc}
         alt=""
       />
     </div>}
