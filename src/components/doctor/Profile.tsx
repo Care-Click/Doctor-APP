@@ -101,7 +101,6 @@ const Profile = () => {
 
     // Function to submit form data
     const onSubmit = async (data: Partial<Doctor>) => {
-console.log(data);
 
         let token = localStorage.getItem('token');
         const formData = new FormData()
@@ -121,14 +120,14 @@ console.log(data);
     };
 
     return (
-        <section className="min-h-screen bg-blue-200 flex justify-center items-center p-10 ">
+        <section className="min-h-screen bg-white-200 flex justify-center items-center p-10 ">
             <div className="container mx-auto">
                 <div className="lg:w-3/4 xl:w-1/2">
                     <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg">
 
                         <div className="p-4 border border-gray-400 bg-blue-100 flex flex-col lg:flex-row">
                             <div className="lg:w-1/2 lg:pr-4">
-                                <div className="flex justify-center border border-gray-400 mb-1">
+                                <div className="flex justify-center border border-gray-400 mb-4 shadow-lg">
                                     {editMode ? (
                                         <div>
                                             <input
@@ -149,9 +148,9 @@ console.log(data);
                                     ) : (
                                         <img src={doctor?.profile_picture} alt="Avatar" className="rounded-full w-20 h-20 mt-3 mb-3" />
                                     )}
-                                    <div className="flex text-center font-bold ml-5 mt-5">
+                                    <div className="flex text-center font-bold ml-5 mt-7">
                                         {editMode ? (
-                                            <input className="text-2xl font-semibold text-center mb-7 border border-gray-400 rounded"
+                                            <input className="text-2xl font-semibold italic text-red-700 text-center mb-7 border border-gray-400 rounded w-80 h-10"
                                                 defaultValue={doctor?.FullName}
                                                 {...register("FullName")} />
                                         ) : (
@@ -159,7 +158,7 @@ console.log(data);
                                         )}
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-1 border border-gray-400 ">
+                                <div className="grid grid-cols-2 gap-1 border border-gray-400 shadow-lg">
                                     <div className="grid grid-cols-2 gap-y-1">
                                         <div className="mb-4 flex items-center font-bold">
                                             <FiUser className="text-red-700 mr-2" size={25} />
@@ -168,7 +167,7 @@ console.log(data);
                                         <div className="mb-4 flex items-center font-bold">
                                             <FiMail className="text-red-700 mr-2" size={25} />
                                             {editMode ? (
-                                                <input className="text-gray-700 border border-gray-400 rounded mt-2 w-60" defaultValue={doctor?.email} {...register("email")} />
+                                                <input className="text-gray-700 border border-gray-400 rounded mt-2 w-80" defaultValue={doctor?.email} {...register("email")} />
                                             ) : (
                                                 <p className="text-gray-700" style={{ fontSize: '1.1em' }}>{doctor?.email}</p>
                                             )}
@@ -176,7 +175,7 @@ console.log(data);
                                         <div className="mb-4 flex items-center font-bold">
                                             <FiPhone className="text-red-700 mr-2" size={25} />
                                             {editMode ? (
-                                                <input className="text-gray-700 border border-gray-400 rounded" defaultValue={doctor?.phone_number} {...register("phone_number")} />
+                                                <input className="text-gray-700 border border-gray-400 rounded w-40" defaultValue={doctor?.phone_number} {...register("phone_number")} />
                                             ) : (
                                                 <p className="text-gray-700" style={{ fontSize: '1.1em' }}>{doctor?.phone_number}</p>
                                             )}
@@ -194,7 +193,7 @@ console.log(data);
                                             <p className="text-gray-700" style={{ fontSize: '1.1em' }}>{doctor?.date_of_birth.slice(0, 10)}</p>
                                         </div>
                                     </div>
-                                    <div className="lg:w-1/2 ml-10 mt-6 mr-6 lg:justify-start border border-gray-400">
+                                    <div className="lg:w-1/2 ml-10 mt-6 mr-6 lg:justify-start border border-gray-400 shadow-lg">
                                         <div className="p-4 ml-10 bg-blue-100">
                                             <div className="flex items-center mb-4">
                                                 <SlBriefcase className="text-red-700 mr-2" size={23} />
@@ -205,7 +204,7 @@ console.log(data);
                                                     <div className="flex items-center">
                                                         <TfiAgenda className="text-red-700 mr-2" size={23} />
                                                         <input
-                                                            className="text-gray-700 mt-1 text-center font-bold border border-gray-400 rounded p-1"
+                                                            className="text-gray-700 mt-1 text-center font-bold border border-gray-400 rounded p-1 h-7 w-80"
                                                             defaultValue={doctor?.MedicalExp?.bio}
                                                             {...register("bio")}
                                                         />
