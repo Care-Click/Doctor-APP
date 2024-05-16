@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Discussion from '../doctor/Discussion';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -18,18 +18,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     padding: theme.spacing(1, 2)
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 19,
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hover styles
-  '&:hover': {
-    backgroundColor: theme.palette.action.selected,
-  }
+  // '&:nth-of-type(odd)': {
+  //   backgroundColor: theme.palette.action.hover,
+  // },
+  // // hover styles
+  // '&:hover': {
+  //   backgroundColor: theme.palette.action.selected,
+  // }
 }));
 
 
@@ -50,12 +50,11 @@ const Patients = () => {
   const navigate = useNavigate()
   const [patients, setPatients] = useState<Patient[]>([]);
   const [test, setTest] = useState(true);
-  const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const token=localStorage.getItem("token")
-      console.log(token);
+      
       
       try {
         const response = await axios.get<Patient[]>(`http://localhost:3000/api/doctors/patients`,{headers:{"token":token}});
@@ -69,27 +68,26 @@ const Patients = () => {
   }, []);
 
   return (
-    <div>
-    <div style={{ display: 'flex', justifyContent: 'center', margin: 'auto', maxWidth: 1200 }}>
-    <TableContainer component={Paper} sx={{ mt: 4 }}>
+    <div className='container px-4 py-8 '>
+      <h2 className="text-3xl font-bold mb-4 text-blue-800">
+              Patients
+            </h2>
+    <div  className="shadow-2xl bg-white bg-opacity-6 rounded-lg p-4 max-w-xl ">
+    <TableContainer component={Paper}>
       <Table aria-label="customized table mb-9">
         <TableHead style={{ backgroundColor: '#0053a0', color: "#FFFFFF" }}>
           <TableRow>
             <StyledTableCell>Profile Picture</StyledTableCell>
             <StyledTableCell>Full Name</StyledTableCell>
-            <StyledTableCell>Email</StyledTableCell>
-            <StyledTableCell>Phone Number</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {patients.map((patient) => (
-            <StyledTableRow key={patient.id} className="border-blue-700 hover:bg-blue-300 cursor-pointer">
-              <StyledTableCell component="th" scope="row" >
+            <StyledTableRow key={patient.id} className="border-blue-700 bg-gray-100 hover:bg-blue-300 cursor-pointer" onClick={()=>navigate("/report", { state: { patientId: patient.id } })}>
+              <StyledTableCell component="th" scope="row"  >
                 <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
               </StyledTableCell>
               <StyledTableCell >{patient.FullName}</StyledTableCell>
-              <StyledTableCell>{patient.email}</StyledTableCell>
-              <StyledTableCell onClick={() => setSelectedPatientId(patient.id)}>{patient.phone_number} 💬</StyledTableCell>
               
             </StyledTableRow>
           ))}
@@ -97,16 +95,6 @@ const Patients = () => {
       </Table>
     </TableContainer>
     </div>
-    <div className="chat-box flex mb-2.5  " style={{
-  position: 'fixed', 
-  bottom: 0,          
-  right: 0,           
-  width: '750px',     
-  height: '400px',     
-  overflow: 'auto' ,  
-}}>
-     {selectedPatientId && <Discussion patientId={selectedPatientId} />}
-     </div>
      </div>
   );
 }

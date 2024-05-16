@@ -1,41 +1,48 @@
-import React from "react";
+import React, {useRef, useState } from "react";
 import "./Messenger.css";
-import Conversation from "./Conversation";
-import Message from "./Message.tsx";
+import axios from "axios";
+import { io } from "socket.io-client";
+import Conversations from "./Conversations.tsx";
+import Messages from "./Messages.tsx";
+
+
 
 function messenger() {
+  
+  const [currentChat, setcurrentChat] = useState({ id: 0 });
+
+
+  
+
+  // useEffect(() => {
+    // socket.emit("joinConversation", currentChat.id,(messages) => {
+    //   console.log(messages);
+      
+    // } );
+       // socket.on("newMessage", (data) => {
+      //   const prev=[...messages]  
+      //   prev.push(data)
+      //   setMessages(prev);
+      // });
+  //   socket.on("newMessage", (data) => {
+  //     console.log(data);
+
+  //     setMessages(...messages,data)
+  //   });
+  // }, []);
+  
+
+ 
+
+  
+
+  
+
+
   return (
     <div className="messager">
-      <div className="chatMenu">
-        <div className="chatMenuRapper">
-          <input
-            className="chatMenuInput"
-            type="text"
-            placeholder="search for a patient"
-          />
-          <Conversation />
-          <Conversation />
-          <Conversation />
-        </div>
-      </div>
-      <div className="chatBox">
-        <div className="chatBoxWrapper">
-          <div className="chatBoxTop">
-            <Message own={false} />
-            <Message own={true} />
-            <Message own={false} />
-            <Message own={true} />
-          </div>
-          <div className="chatBoxBottom">
-            <textarea
-              className="chatIntput"
-              placeholder="write somthing"
-              id=""
-            ></textarea>
-            <button className="buttonSend">send</button>
-          </div>
-        </div>
-      </div>
+      <Conversations setcurrentChat={setcurrentChat}/>
+     <Messages currentChat={currentChat}/>
     </div>
   );
 }

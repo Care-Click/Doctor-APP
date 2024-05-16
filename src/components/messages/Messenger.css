@@ -1,5 +1,5 @@
 .messager {
-  height: calc(100vh-70px);
+  height: calc(100%);
   display: flex;
 }
 .chatMenu {
@@ -8,12 +8,9 @@
 .chatBox {
   flex: 7;
 }
-.chatOnline {
-  flex: 3;
-}
+
 .chatMenuRapper,
-.chatBoxRapper,
-.chatOnlineRapper {
+.chatBoxRapper {
   padding: 10px;
 
 
@@ -22,7 +19,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
+  /* position: relative; */
 }
 .chatMenuInput{
 width: 90%;
@@ -59,6 +56,14 @@ background-color: aliceblue;
 
 }
 .chatBoxRapper{
+
   display: flex;
   flex-direction: column;
 }
+  .nochat{
+    /* position: relative; */
+    top:10%;
+    color: #808080;
+    text-align: center;
+    font-size: 50px;
+  }

@@ -13,9 +13,9 @@ import LandingPage from "./components/LandingPage.tsx";
 import Home from "./components/doctor/Home.tsx";
 import Messages from "./components/messages/Messenger.tsx";
 import Profile from "./components/doctor/Profile.tsx";
-
-import Discussion from "./components/doctor/Discussion.tsx";
 import Learnmore from "./components/Learnmore.tsx";
+import Subscribe from "./components/Subscribe.tsx";
+import Verification from "./components/Verification.tsx";
 
 
 const App = () => {
@@ -39,6 +39,8 @@ const App = () => {
         <Route path="/home" element={< Home/>} />
         <Route path="/messages" element={< Messages/>} />
         <Route path="/profile" element={< Profile/>} />
+        <Route path="/payment" element = {<Subscribe/>} />
+        <Route path="/verification" element = {<Verification/>} />
 
       </Routes>
      
