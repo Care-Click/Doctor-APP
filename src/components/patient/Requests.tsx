@@ -46,6 +46,23 @@ function Requests() {
   const [doctorId, setDoctorId] = useState(0);
   const [reqs, setData] = useState([]);
   const [test, setTest] = useState(false);
+
+  // const notify = async ()=>{
+  //   try {
+  //      const send = await axios.post("https://app.nativenotify.com/api/notification",{
+  //       appId: 21324,
+  //       appToken: "2g5Sy9vbuUZmcUqqCDZFEy",
+  //       title: "Request",
+  //       body: "A doctor has accpeted your notification ",
+  //       dateSent: new Date(),
+       
+  //      })
+  //      console.log(send)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
   const getRequests = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -120,7 +137,7 @@ function Requests() {
               <StyledTableCell className="text-lg">
                 {req.status === "Pending" ? (
                   <button
-                    onClick={() => acceptRequest(req.id)}
+                    onClick={() =>acceptRequest(req.id) }
                     className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
                   >
                     Accept
