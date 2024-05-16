@@ -4,9 +4,16 @@ import Patients from '../patient/Patients.tsx'
 
 function Home() {
   return (
-    <div className="flex flex-row justify-center" >
-    <Patients/>
-    <Calendar/>
+    <div style={{ backgroundImage: "url('/src/assets/images/bg.jpg')" 
+    }} 
+    className=" flex justify-center bg-cover bg-no-repeat " >
+    
+    <div style={{ flex: '2' , borderRight: '4px solid gray'}}>
+        <Calendar />
+      </div>
+      <div style={{ flex: '1' , backgroundColor: '#ECECEC'}}>
+        <Patients />
+      </div>
     </div>
     )
 }
