@@ -68,9 +68,12 @@ const Patients = () => {
   }, []);
 
   return (
-    <div>
-    <div style={{ display: 'flex', justifyContent: 'center', maxWidth: 1200 }}>
-    <TableContainer component={Paper} sx={{ mt: 4 }}>
+    <div className='container px-4 py-8 '>
+      <h2 className="text-3xl font-bold mb-4 text-blue-800">
+              Patients
+            </h2>
+    <div  className="shadow-2xl bg-white bg-opacity-6 rounded-lg p-4 max-w-xl ">
+    <TableContainer component={Paper}>
       <Table aria-label="customized table mb-9">
         <TableHead style={{ backgroundColor: '#0053a0', color: "#FFFFFF" }}>
           <TableRow>
@@ -80,7 +83,7 @@ const Patients = () => {
         </TableHead>
         <TableBody>
           {patients.map((patient) => (
-            <StyledTableRow key={patient.id} className="border-blue-700 hover:bg-blue-300 cursor-pointer" onClick={()=>navigate("/report", { state: { patientId: patient.id } })}>
+            <StyledTableRow key={patient.id} className="border-blue-700 bg-gray-100 hover:bg-blue-300 cursor-pointer" onClick={()=>navigate("/report", { state: { patientId: patient.id } })}>
               <StyledTableCell component="th" scope="row"  >
                 <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
               </StyledTableCell>
