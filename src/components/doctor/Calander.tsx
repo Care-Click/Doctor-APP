@@ -52,12 +52,13 @@ const Calender = () => {
         "http://localhost:3000/api/doctors/getDoctor",
         { headers: { token: token } }
       );
-     
+      setDoctor(response.data)
       const { data } = await axios.get(
         `http://localhost:3000/api/appointment/getAppointements/${response.data?.id}`,
         { headers: { token: token } }
-
+        
       );
+      console.log(response.data);
       setAppointments(data);
       console.log(data);
       
