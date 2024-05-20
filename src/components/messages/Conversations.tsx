@@ -29,10 +29,11 @@ function Conversations({setcurrentChat}) {
   }, []);
 
   return (
-    <div className="chatMenu">
-        <div className="chatMenuRapper bg-gray-100 h-full">
+    <div style={{ backgroundImage: "url('/src/assets/images/rapport.png')" 
+  }}className="chatMenu pt-24 bg-no-repeat bg-cover h-screen">
+        <div className="chatMenuRapper ">
           <input
-            className="chatMenuInput "
+            className="chatMenuInput  rounded-lg"
             type="text"
             placeholder="search for a patient"
           />
