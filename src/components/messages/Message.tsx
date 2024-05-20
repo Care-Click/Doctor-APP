@@ -6,9 +6,9 @@ function message({own,message,profileDoc,profilePat}) {
 
 
   return (
-    <div className={own?"message own":"message"}>
+    <div style={{paddingTop :"96px"}} className= {own?"message own":"message"} >
       
-      {!own?<div className="messageTop">
+      {!own?<div className="messageTop ">
       
         <img
           className="messageImg"
