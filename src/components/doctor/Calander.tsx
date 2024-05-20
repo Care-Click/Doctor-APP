@@ -120,20 +120,17 @@ const Calender = () => {
 
   return (
 
-    <div className="container px-4 py-8 ">
-      <h2 className="text-3xl font-bold mb-4 text-blue-800"  style={{ textAlign: 'center' }}>
+    <div className="">
+      <h2 className="text-3xl font-bold mb-7 text-blue-800"  style={{ textAlign: 'center' }}>
               Appointment Calendar
             </h2>
-            <div className="">
-        <div className="flex items-center">
-          <div className="flex  items-center shadow-2xl bg-white bg-opacity-6 rounded-lg p-4 max-w-3xl mb-8">
             
-            <div className="">
+        <div className="flex items-center space-x-24 ">
+          <div className=" flex-2 shadow-2xl bg-white  rounded-lg p-4 mb-8">
               <Calendar onChange={handleDateChange} value={selectedDate} />
-            </div>
           </div>
 
-          <div className="appointments-wrapper ml-4 shadow-2xl bg-white bg-opacity-6 rounded-lg p-4 max-w-5xl mb-8 ">
+          <div className=" flex-1 appointments-wrapper ml-4 shadow-2xl bg-white rounded-lg p-4 max-w-5xl mb-8 ">
             <h3 className="text-lg font-semibold mb-2 text-blue-700">
               Appointments for {selectedDate.toDateString()}
             </h3>
@@ -157,7 +154,7 @@ const Calender = () => {
                 ))}
               </ul>
             ) : (
-              <p className="text-red-600">No appointments for this date.</p>
+              <p className="text-red-600 font-bold"> No appointments for this date.</p>
             )}
 
            <button
@@ -167,9 +164,9 @@ const Calender = () => {
               Add Appointment
             </button>
           </div>
-         
-        </div>
-      </div>
+          </div>
+        
+      
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -266,7 +263,7 @@ const Calender = () => {
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                   <button
                     type="submit"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#A3FFD6] text-base font-medium text-white hover:bg-[#4be39f] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 sm:ml-3 sm:w-auto sm:text-sm"
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 hover:bg-blue-300 text-white text-base font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 sm:ml-3 sm:w-auto sm:text-sm"
                   >
                     Add Appointment
                   </button>
