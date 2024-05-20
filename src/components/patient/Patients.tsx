@@ -9,11 +9,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import moment from 'moment';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-
+    fontSize: 20,
     color: theme.palette.common.white,
     padding: theme.spacing(1, 2)
   },
@@ -67,18 +68,18 @@ const Patients = () => {
     setTest(!test)
   }, []);
 
-  return (
-    <div className='container px-4 py-8 '>
-      <h2 className="text-3xl font-bold mb-4 text-blue-800">
-              Patients
-            </h2>
-    <div  className="shadow-2xl bg-white bg-opacity-6 rounded-lg p-4 max-w-xl ">
+  return ( 
+    <div className='p-32 pt-36 h-screen bg-gray-100'>
+    <div className="shadow-2xl rounded-lg max-auto ">
     <TableContainer component={Paper}>
       <Table aria-label="customized table mb-9">
         <TableHead style={{ backgroundColor: '#0053a0', color: "#FFFFFF" }}>
           <TableRow>
             <StyledTableCell>Profile Picture</StyledTableCell>
             <StyledTableCell>Full Name</StyledTableCell>
+            <StyledTableCell>Age</StyledTableCell>
+            <StyledTableCell>Email</StyledTableCell>
+          <StyledTableCell>Phone Number</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -88,7 +89,9 @@ const Patients = () => {
                 <img src={patient.profile_picture} alt="Profile" style={{ width: 50, height: 50, borderRadius: '50%' }} />
               </StyledTableCell>
               <StyledTableCell >{patient.FullName}</StyledTableCell>
-              
+              <StyledTableCell >{moment().diff(patient.date_of_birth,'years')}</StyledTableCell>
+              <StyledTableCell>{patient.email}</StyledTableCell>
+            <StyledTableCell>{patient.phone_number.slice(4)}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -33,7 +33,7 @@ const navigate=useNavigate()
   getDoctor()
   },[])
   return (
-    <nav className="bg-white shadow-lg p-2 flex justify-between items-center ">
+    <nav className="bg-white shadow-lg p-2 flex justify-between items-center fixed w-full z-10 ">
       <div className="flex items-center px-2">
         <img src="src\assets\images\logo.png" alt="Logo" className="h-12 w-auto" />
         <span className="font-bold text-[#F26268] text-lg tablet:text-xl laptop:text-2xl ml-2">
@@ -41,24 +41,31 @@ const navigate=useNavigate()
         </span>
       </div>
 
-      <div className="flex-grow flex justify-center items-center">
+      <div className="flex-grow flex justify-center items-center space-x-8">
         <Link
           to="/home"
-          className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300 mx-2"
+          className="text-[#1DBED3] text-xl hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
         >
           Home
         </Link>
   
         <Link
           to="/Requests"
-          className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300 mx-2"
+          className="text-[#1DBED3] text-xl hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
         >
           Requests
         </Link>
 
         <Link
+          to="/patients"
+          className="text-[#1DBED3] text-xl hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
+        >
+          Patients
+        </Link>
+
+        <Link
           to="/messages"
-          className="text-[#1DBED3] text-lg hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300 mx-2"
+          className="text-[#1DBED3] text-xl hover:bg-[#F26268] hover:text-white px-2 tablet:px-3 py-1 rounded transition-colors duration-300"
         >
           Messages
         </Link>

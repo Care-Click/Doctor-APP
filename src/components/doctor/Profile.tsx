@@ -134,9 +134,9 @@ const Profile = () => {
   };
 
   return (
-    <div className=" bg-gray-200 p-10 text-[#0C3178]">
-      <div className="container mx-auto">
-        <div className="bg-white shadow rounded-lg p-9 mx-auto">
+    <div className=" bg-gray-200 text-[#0C3178] pt-40 p-12">
+
+        <div className="bg-white shadow rounded-lg p-9 ">
           <div className="flex flex-col items-center ">
             {editMode ? (
               <div>
@@ -151,7 +151,7 @@ const Profile = () => {
                   src={imageUrl ? imageUrl : doctor?.profile_picture}
                   alt="Click to Upload"
                   onClick={handleImageClick}
-                  style={{ cursor: "pointer", width: "100px", height: "100px" }}
+                  style={{ cursor: "pointer"}}
                   className="w-32 h-32 bg-gray-300 rounded-full  "
                 />
               </div>
@@ -177,7 +177,7 @@ const Profile = () => {
             </div>
             <div className="flex items-center mb-4">
               <SlBriefcase className=" mr-4" size={23} />
-              <p className="text-xl text-[#009688] font-bold text-center italic mt-4">
+              <p className="text-xl text-[#009688] font-bold text-center italic ">
                 {doctor?.speciality}
               </p>
             </div>
@@ -229,28 +229,28 @@ const Profile = () => {
                   }`}</p>
                 )}
               </div>
-              <div className="mb-5 flex items-center font-bold mt-6">
+              <div className="mb-4 flex items-center font-bold mt-6">
                 <FiCalendar className=" mr-2" size={25} />
                 <p className="text-[#009688]" style={{ fontSize: "1.1em" }}>
                   {doctor?.date_of_birth.slice(0, 10)}
                 </p>
               </div>
             </div>
-            <div style={{ flex: "2" }} className="  border border-gray-400 ">
-              <div className="bg-white shadow rounded-lg p-6">
+            <div style={{ flex: "2" }} className=" p-5 border border-gray-400   ">
+              <div className=" border-gray-400 ">
                 {editMode ? (
-                  <div className="flex items-center">
-                    <TfiAgenda className=" mr-5" size={23} />
-                    <input
-                      className="text-[#009688] mt-1 text-center font-bold border border-gray-400 rounded p-1 h-80 w-180"
+                  <div className=" mb-4 flex items-center ">
+                    <TfiAgenda className=" mr-2" size={25} />
+                    <textarea
+                      className="text-[#009688] font-bold border text-center border-gray-400 rounded p-2 w-full h-full"
                       defaultValue={doctor?.MedicalExp?.bio}
                       {...register("bio")}
                     />
                   </div>
                 ) : (
-                  <div className="flex items-center ">
-                    <TfiAgenda className=" mr-4" size={23} />
-                    <p className="text-[#009688] mt-4 text-center font-bold mx-auto">
+                  <div className=" mb-4 flex items-center text-center ">
+                    <TfiAgenda className=" mr-2" size={25} />
+                    <p className="text-[#009688] font-bold mx-auto">
                       {doctor?.MedicalExp?.bio}
                     </p>
                   </div>
@@ -313,7 +313,7 @@ const Profile = () => {
             )}
           </div>
         </div>
-      </div>
+     
     </div>
   );
 };
