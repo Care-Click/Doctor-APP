@@ -107,13 +107,13 @@ const Report = () => {
 
 
   return (
-    <div className="overflow-hidden">
-    <div style={{ backgroundImage: "url('/src/assets/images/report.png')" 
-    }} className="flex  items-center p-9 bg-cover min-h-screen">
-    <div className="p-2 ">
+<div style={{ backgroundImage: "url('/src/assets/images/rapport.png')" }} className="flex justify-center h-full bg-cover p-12 ">
+  <div className= ""> 
+  <div className=""> 
            {/* Personal Information Section */}
-           <h1 className="text-3xl font-semibold mb-4"> Personal Informations:</h1>
-        <div className="shadow-2xl bg-white bg-opacity-55 rounded-lg p-4 max-w-2xl mb-8">
+<div className="mb-4 pt-20">
+           <h1 className=" text-3xl text-blue-900 font-semibold mb-4 ml-24"> Personal Informations:</h1>
+        <div className="shadow-2xl bg-white bg-opacity-55 rounded-lg p-4 max-w-3xl mb-8 ">
       <div className="flex items-center gap-6 ">
         
           <img src={patient.profile_picture} alt="Profile" className="w-30 h-40 rounded-md " />
@@ -128,14 +128,15 @@ const Report = () => {
         </div>
       
     </div>
-    <h2 className="text-3xl font-semibold mb-4">Medical Information:</h2>
-    <div className="flex justify-between  gap-9 w-full ">
+    </div>
+    <h2 className="text-3xl font-semibold mb-4 text-blue-900  ml-24"> Medical Information:</h2>
+    <div className="flex space-x-28 gap-9  ">
       {/* Medical Information Section */}
       
-      <div  className="bg-white bg-opacity-55  shadow-2xl  rounded-lg p-6 flex-row space-x-10" style={{ width: '600px' }}>
+      <div  className="bg-white bg-opacity-55  shadow-2xl  rounded-lg p-6 flex-row space-x-20 " style={{ width: '600px' }}>
     
        
-      <div  className="flex space-y-10">
+      <div  className="flex">
       {patient.medicalInfo && (
         <div className=" grid grid-cols-2 gap-8 ">
                
@@ -192,13 +193,13 @@ const Report = () => {
 
          {/* Add Information Section */}
          
-         { info && <div className="bg-white bg-opacity-55 shadow-2xl rounded-lg  p-6 flex-grow " style={{ width: '600px' }}>
-        <h2 className="text-lg font-bold mb-4">Add Information:</h2>
+         { info && <div className="bg-white bg-opacity-55 shadow-2xl rounded-lg p-6 " style={{ width: '600px' }}>
+        
       <form onSubmit={handleSubmit(onSubmit)}>
             {/* Dropdown select */}
             <div>
               <label
-                className="block text-sm font-medium text-gray-900 mb-4"
+                className="block text-sm font-medium text-blue-900 mb-4"
                 htmlFor="dropdown"
               >
                 Select an Information:
@@ -223,9 +224,9 @@ const Report = () => {
               </select>
             </div>
             {/* Input field */}
-            <div className="mb-4">
+            <div className="mb-4 mt-4">
               <label
-                className="block text-sm font-medium text-gray-900 mb-2"
+                className="block text-sm font-medium text-blue-900 mb-2"
                 htmlFor="inputField"
               >
                 Description:

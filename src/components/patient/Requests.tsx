@@ -83,7 +83,7 @@ function Requests() {
   }, [test]);
 
   return (
-    <div className="bg-gray-300  bg-opacity-45 p-1">
+    <div className="bg-gray-300 h-full bg-cover bg-opacity-45 pt-24 p-5">
     <TableContainer
       component={Paper}
       sx={{ mx: "auto", my: 5, boxShadow: 2, maxWidth: 1300 }}

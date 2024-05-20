@@ -134,9 +134,9 @@ const Profile = () => {
   };
 
   return (
-    <div className=" bg-gray-200 text-[#0C3178] p-40">
+    <div className=" bg-gray-200 text-[#0C3178] pt-40 p-12">
 
-        <div className="bg-white shadow rounded-lg p-9 mb-0">
+        <div className="bg-white shadow rounded-lg p-9 ">
           <div className="flex flex-col items-center ">
             {editMode ? (
               <div>
