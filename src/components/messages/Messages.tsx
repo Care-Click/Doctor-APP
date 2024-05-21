@@ -90,7 +90,7 @@ console.log(data);
   }, [currentChat]);
 
   return (
-    <div className="chatBox pt-40">
+    <div className="chatBox pt-32">
       <div className="chatBoxWrapper">
         { (
           <div className="chatBoxTop">
