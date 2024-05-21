@@ -58,7 +58,7 @@ function Messages({ currentChat }) {
         content: newMessage,
       };
 
-      setMessages([...messages, messageSocket]);
+      
       socket.emit("sendMessage", messageSocket);
       setNewMessage("");
     } catch (error) {
@@ -72,9 +72,12 @@ function Messages({ currentChat }) {
         const { data } = await axios.get(
           `http://localhost:3000/api/conversations/${currentChat?.id}/messages`
         );
+console.log(data);
 
         setProfileDoc(data[0].conversation.doctor.profile_picture);
         setProfilePat(data[0].conversation.patient.profile_picture);
+        console.log(data);
+        
         setMessages(data);
       }
     } catch (error) {
@@ -87,9 +90,9 @@ function Messages({ currentChat }) {
   }, [currentChat]);
 
   return (
-    <div className="chatBox">
+    <div className="chatBox pt-40">
       <div className="chatBoxWrapper">
-        {messages.length !== 0 ? (
+        { (
           <div className="chatBoxTop">
             {messages.map((message: Message) => (
               <div key={message.id}>
@@ -114,9 +117,7 @@ function Messages({ currentChat }) {
               </button>
             </div>
           </div>
-        ) : (
-          <span className="nochat">Open a conversation to start a chat</span>
-        )}
+        ) }
       </div>
     </div>
   );
