@@ -33,8 +33,12 @@ const navigate=useNavigate()
   getDoctor()
   },[])
   return (
-    <nav className="bg-white shadow-lg p-2 flex justify-between items-center fixed w-full z-10 ">
-      <div className="flex items-center px-2">
+
+    <nav className="bg-white shadow-lg p-2 flex justify-between items-center fixed w-full z-10">
+      <div onClick={()=>{navigate("/home")}} className="cursor-pointer flex items-center px-2">
+
+      
+
         <img src="src\assets\images\logo.png" alt="Logo" className="h-12 w-auto" />
         <span className="font-bold text-[#F26268] text-lg tablet:text-xl laptop:text-2xl ml-2">
           CareClick
@@ -99,25 +103,24 @@ const navigate=useNavigate()
                         ${hover ? '' : 'opacity-0 scale-0'}
                     `}>
                     <div
-                        className='py-[15px] px-4 text-[#0C062D] text-[22px] rounded-sm m-2 mx-3 cursor-pointer'
+                        className='py-[15px] px-4 text-[#F26268] text-[22px] rounded-sm m-2 mx-3 cursor-pointer'
                     >
                         {doctor?.FullName}
                     </div>
                     <div onClick={()=>{navigate("/profile")}}
-                        className='py-[15px] px-4 bg-[#fff] shadow-sm hover:bg-[#F26268] rounded-sm m-2 mx-3 cursor-pointer duration-300 hover:text-[#0C062D]'
+                        className='py-[8px] px-4 bg-[#fff] shadow-sm hover:bg-[#F26268] rounded-sm m-2 mx-5 ml-2 cursor-pointer duration-300 hover:text-white'
                     >
-                         Edit Profile
+                         Profile
                     </div>
                     <div
                         onClick={handleLogout}
-                        className='py-[15px] px-4 bg-[#fff] shadow-sm hover:bg-[#F26268] rounded-sm m-2 mx-3 cursor-pointer duration-300 hover:text-[#0C062D]'
+                        className='py-[8px] px-4 bg-[#fff] shadow-sm hover:bg-[#F26268] rounded-sm m-2 mx-5 ml-2 cursor-pointer duration-300 hover:text-white'
                     >
                         Logout
                     </div>
 
                 </div>
             </div>
-          
     </nav>
   );
 };
