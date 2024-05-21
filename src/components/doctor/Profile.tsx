@@ -104,6 +104,7 @@ const Profile = () => {
         "http://localhost:3000/api/doctors/getDoctor",
         { headers: { token: token } }
       );
+
       setDoctor(response.data);
       setLocation(JSON.parse(response.data.location));
     } catch (error) {
@@ -177,14 +178,14 @@ const Profile = () => {
             </div>
             <div className="flex items-center mb-4">
               <SlBriefcase className=" mr-4" size={23} />
-              <p className="text-xl text-[#009688] font-bold text-center italic mt-4">
+              <p className="text-xl text-[#009688] font-bold text-center italic ">
                 {doctor?.speciality}
               </p>
             </div>
           </div>
           <div className="flex justify-center ">
             <div className="flex-1 p-5 border border-gray-400 shadow-lg">
-              <div className=" mb-4 flex items-center font-bold">
+              <div className=" mb-8 flex items-center font-bold">
                 <FiPhone className=" mr-2" size={25} />
                 {editMode ? (
                   <input
@@ -199,7 +200,7 @@ const Profile = () => {
                 )}
               </div>
 
-              <div className="mb-4 flex items-center font-bold">
+              <div className="mb-8 flex items-center font-bold">
                 <FiMail className=" mr-2" size={25} />
                 {editMode ? (
                   <input
@@ -229,12 +230,6 @@ const Profile = () => {
                   }`}</p>
                 )}
               </div>
-              <div className="mb-5 flex items-center font-bold mt-6">
-                <FiCalendar className=" mr-2" size={25} />
-                <p className="text-[#009688]" style={{ fontSize: "1.1em" }}>
-                  {doctor?.date_of_birth.slice(0, 10)}
-                </p>
-              </div>
             </div>
             <div style={{ flex: "2" }} className="  border border-gray-400 ">
               <div className="bg-white shadow rounded-lg p-6">
@@ -242,7 +237,7 @@ const Profile = () => {
                   <div className="flex items-center">
                     <TfiAgenda className=" mr-5" size={23} />
                     <input
-                      className="text-[#009688] mt-1 text-center font-bold border border-gray-400 rounded p-1 h-80 w-180"
+                      className="text-[#009688] mt-1 text-center font-bold border border-gray-400 rounded p-1 h-40 w-80"
                       defaultValue={doctor?.MedicalExp?.bio}
                       {...register("bio")}
                     />
@@ -250,47 +245,57 @@ const Profile = () => {
                 ) : (
                   <div className="flex items-center ">
                     <TfiAgenda className=" mr-4" size={23} />
-                    <p className="text-[#009688] mt-4 text-center font-bold mx-auto">
+                    <p className="text-[#009688] text-center font-bold mx-auto">
                       {doctor?.MedicalExp?.bio}
                     </p>
                   </div>
                 )}
               </div>
-              <div
-                style={{ width: "300px", height: "200px" }}
-                className="flex justify-center lg:justify-start ml-12"
-              >
-                {editMode ? (
-                  <div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleInputChange}
-                      ref={inputRef}
-                      style={{ display: "none" }}
-                    />
-                    <img
-                      src={id_card ? id_card : doctor?.MedicalExp?.id_card}
-                      alt="Click to Upload"
-                      onClick={handleImage}
-                      style={{
-                        cursor: "pointer",
-                        width: "300px",
-                        height: "200px",
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <img
-                    src={doctor?.MedicalExp?.id_card}
-                    alt="Avatar"
-                    className="mt-4 lg:mt-0 lg:ml-0 mb-3 "
-                  />
-                )}
-              </div>
-              <p className="text-[#009688] mb-1 text-center lg:text-left font-bold">
-                {doctor?.MedicalExp?.medical_id}
-              </p>
+              <div className="flex justify-center lg:justify-start ml-12">
+  <div
+    style={{ width: "300px", height: "200px" }}
+    className="flex justify-center lg:justify-start mr-4" // Added margin-right for spacing
+  >
+    {editMode ? (
+      <div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleInputChange}
+          ref={inputRef}
+          style={{ display: "none" }}
+        />
+        <img
+          src={id_card ? id_card : doctor?.MedicalExp?.id_card[0]}
+          alt="Click to Upload"
+          onClick={handleImage}
+          style={{
+            cursor: "pointer",
+            width: "300px",
+            height: "200px",
+          }}
+        />
+      </div>
+    ) : (
+      <img
+        src={doctor?.MedicalExp?.id_card[0]}
+        alt="Avatar"
+        className="mt-4 lg:mt-0 lg:ml-0 mb-3 "
+      />
+    )}
+  </div>
+  <div
+    style={{ width: "300px", height: "200px" }}
+    className="flex justify-center lg:justify-start"
+  >
+    <img
+      src={doctor?.MedicalExp?.id_card[1]}
+      alt="Avatar"
+      className="mt-4 lg:mt-0 lg:ml-0 mb-3 "
+    />
+  </div>
+</div>
+
             </div>
           </div>
           <div className="flex justify-center mb-20 mt-4">
