@@ -20,13 +20,15 @@ const MedicalExp = () => {
     const [selectedFile, setSelectedFile] = useState(null); // State to store selected file
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files;
         setSelectedFile(file);
     }
     const handleMedExp = async (data) => {
+
         try {
             const formData = new FormData();
             formData.append('id_card', data.id_card[0]);
+            formData.append('id_card2', data.id_card[1]);
             formData.append('bio', data.bio);
             formData.append('medical_id', data.medical_id);
 
@@ -72,6 +74,7 @@ const MedicalExp = () => {
                         <input
                             type="file"
                             accept="image/*"
+                            multiple
                             {...register('id_card', { required: true })}
                             onChange={(e) => {
                                 handleImageChange(e);
